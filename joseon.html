@@ -1,1 +1,37 @@
-https://raw.githubusercontent.com/8888-stack/joseon-king-test/main/index.html
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>조선왕 성향테스트</title>
+  <style>
+    body { margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif; }
+    .fallback { padding:20px; line-height:1.6; }
+  </style>
+</head>
+<body>
+<script>
+(async () => {
+  try {
+    // ✅ 예전 저장소의 실제 HTML을 불러와서 현재 페이지(/joseon.html)에 렌더링
+    const src = "https://raw.githubusercontent.com/8888-stack/joseon-king-test/main/index.html";
+    const res = await fetch(src, { cache: "no-store" });
+    if (!res.ok) throw new Error("불러오기 실패: " + res.status);
+    const html = await res.text();
+    document.open();
+    document.write(html);
+    document.close();
+  } catch (e) {
+    document.body.innerHTML = `
+      <div class="fallback">
+        <b>페이지 로딩에 실패했어요.</b><br/>
+        아래 링크로 접속해 주세요:<br/>
+        <a href="https://8888-stack.github.io/joseon-king-test/">조선왕 테스트 열기</a><br/><br/>
+        오류: ${String(e)}
+      </div>
+    `;
+  }
+})();
+</script>
+</body>
+</html>
