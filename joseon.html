@@ -3,33 +3,515 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>조선왕 성향테스트</title>
+  <title>조선시대 왕 성향 테스트</title>
   <style>
-    body { margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif; }
-    .fallback { padding:20px; line-height:1.6; }
+    :root{
+      --bg:#0b1020; --card:rgba(255,255,255,.06); --line:rgba(255,255,255,.12);
+      --txt:#e9efff; --sub:#9fb0d6; --acc:#6ea8ff; --good:#7dffb2; --warn:#ffcf6e;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;background:var(--bg);color:var(--txt)}
+    a{color:inherit}
+    .wrap{max-width:920px;margin:0 auto;padding:20px 16px 60px}
+    .top{display:flex;gap:10px;align-items:center;justify-content:space-between;margin-bottom:14px}
+    .brand{display:flex;align-items:center;gap:10px}
+    .logo{width:34px;height:34px;border-radius:12px;background:linear-gradient(135deg,var(--acc),#a78bfa);display:grid;place-items:center;font-weight:900}
+    .title{font-size:18px;font-weight:900;margin:0}
+    .pill{font-size:12px;color:var(--sub);border:1px solid var(--line);padding:6px 10px;border-radius:999px;background:rgba(255,255,255,.03)}
+    .card{border:1px solid var(--line);background:var(--card);border-radius:18px;padding:16px}
+    .grid{display:grid;gap:12px}
+    .hero{padding:18px}
+    .hero h1{margin:0 0 8px;font-size:22px}
+    .hero p{margin:0;color:var(--sub);line-height:1.6}
+    .btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+    button{appearance:none;border:1px solid var(--line);background:rgba(255,255,255,.04);color:var(--txt);
+      border-radius:14px;padding:12px 14px;font-weight:800;cursor:pointer}
+    button.primary{border-color:rgba(110,168,255,.55);background:rgba(110,168,255,.16)}
+    button.ghost{background:transparent}
+    button:active{transform:translateY(1px)}
+    .progress{height:10px;border-radius:999px;background:rgba(255,255,255,.08);overflow:hidden;border:1px solid var(--line)}
+    .bar{height:100%;width:0;background:linear-gradient(90deg,var(--acc),#a78bfa)}
+    .qhead{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+    .qno{font-weight:900}
+    .qtxt{font-size:18px;font-weight:900;line-height:1.35;margin:0 0 6px}
+    .qsub{margin:0;color:var(--sub);line-height:1.55}
+    .choices{display:grid;gap:10px;margin-top:12px}
+    .choice{padding:14px;border-radius:16px;text-align:left}
+    .choice small{display:block;color:var(--sub);font-weight:700;margin-top:6px}
+    .muted{color:var(--sub)}
+    .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+    .sp{height:1px;background:var(--line);margin:14px 0}
+    .resultTop{display:grid;gap:10px}
+    .kingName{font-size:22px;font-weight:1000;margin:0}
+    .tagline{margin:0;color:var(--sub);line-height:1.6}
+    .badge{display:inline-flex;gap:8px;align-items:center;border:1px solid var(--line);
+      background:rgba(255,255,255,.04);padding:6px 10px;border-radius:999px;font-size:12px;color:var(--sub)}
+    .b{font-weight:900;color:var(--txt)}
+    .scores{display:grid;gap:10px}
+    .scoreRow{display:grid;gap:6px}
+    .scoreRow .lab{display:flex;justify-content:space-between;gap:10px;color:var(--sub);font-size:12px}
+    .meter{height:10px;border-radius:999px;background:rgba(255,255,255,.08);overflow:hidden;border:1px solid var(--line)}
+    .meter > div{height:100%;width:50%;background:linear-gradient(90deg,#7dd3fc,#a78bfa)}
+    .top3{display:grid;gap:8px}
+    .top3 .item{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:10px;border-radius:14px;border:1px solid var(--line);background:rgba(255,255,255,.03)}
+    .hint{font-size:12px;color:var(--sub);line-height:1.6}
+    .toast{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);background:rgba(0,0,0,.55);
+      border:1px solid rgba(255,255,255,.18);color:var(--txt);padding:10px 12px;border-radius:12px;display:none;max-width:90vw}
+    .footer{margin-top:14px;color:var(--sub);font-size:12px;line-height:1.7}
+    @media (min-width:700px){
+      .hero h1{font-size:26px}
+    }
   </style>
 </head>
 <body>
+<div class="wrap">
+  <div class="top">
+    <div class="brand">
+      <div class="logo">👑</div>
+      <div>
+        <p class="title">조선시대 왕 성향 테스트</p>
+        <div class="muted" style="font-size:12px">선택형 · 결과+해설 · 27명 전원 매칭</div>
+      </div>
+    </div>
+    <div class="pill" id="statusPill">대기 중</div>
+  </div>
+
+  <div id="screen" class="grid"></div>
+
+  <div class="footer">
+    * 재미를 위한 성향 테스트입니다. 역사적 평가는 단순화/각색되어 있습니다. <br/>
+    * 결과 링크는 “당신의 선택”만 저장합니다(개인정보 저장 없음).
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
 <script>
-(async () => {
-  try {
-    // ✅ 예전 저장소의 실제 HTML을 불러와서 현재 페이지(/joseon.html)에 렌더링
-    const src = "https://raw.githubusercontent.com/8888-stack/joseon-king-test/main/index.html";
-    const res = await fetch(src, { cache: "no-store" });
-    if (!res.ok) throw new Error("불러오기 실패: " + res.status);
-    const html = await res.text();
-    document.open();
-    document.write(html);
-    document.close();
-  } catch (e) {
-    document.body.innerHTML = `
-      <div class="fallback">
-        <b>페이지 로딩에 실패했어요.</b><br/>
-        아래 링크로 접속해 주세요:<br/>
-        <a href="https://8888-stack.github.io/joseon-king-test/">조선왕 테스트 열기</a><br/><br/>
-        오류: ${String(e)}
+/* =========================
+   0) 데이터(질문/축/왕 프로필)
+   ========================= */
+const AXES = [
+  { key:"reform",   name:"개혁/변화", left:"현상 유지", right:"제도 개편" },
+  { key:"central",  name:"집권/권위", left:"분권/협치", right:"강한 리더십" },
+  { key:"prag",     name:"실리/현실", left:"명분/원칙", right:"현실적 선택" },
+  { key:"scholar",  name:"학문/문화", left:"실무/현장", right:"제도·학예" },
+  { key:"hard",     name:"강경/결단", left:"유연/타협", right:"단호한 조치" },
+  { key:"care",     name:"민생/공감", left:"국가 우선", right:"백성 우선" }
+];
+// 점수 범위(대략)
+const CLAMP = 10;
+
+// 질문: 각 선택이 축에 더하는 값(+-)
+const QUESTIONS = [
+  {
+    title:"즉위 첫날, 권력 기반을 다질 때",
+    sub:"새로 오른 왕좌. 첫 조치가 분위기를 만든다.",
+    a:{ text:"대신·종친과 공개 협의로 균형을 만든다", note:"협치/분권형", eff:{central:-2, care:+1, hard:-1} },
+    b:{ text:"핵심 권한을 궁과 중앙으로 모아 빠르게 장악한다", note:"집권/권위형", eff:{central:+2, hard:+1, prag:+1} }
+  },
+  {
+    title:"대가뭄으로 민심이 흔들린다",
+    sub:"구휼이 늦으면 혼란이 커진다.",
+    a:{ text:"세금·부역을 줄이고 구휼을 최우선으로 시행", note:"민생 우선", eff:{care:+2, prag:+1, reform:+1} },
+    b:{ text:"국고·군량부터 지키며 질서를 단속", note:"국가 안정", eff:{care:-1, hard:+2, central:+1} }
+  },
+  {
+    title:"강대국 외교, 압박이 거세다",
+    sub:"명분을 지킬지, 피해를 줄일지.",
+    a:{ text:"원칙을 세워 외교 명분을 지킨다", note:"명분/원칙", eff:{prag:-2, scholar:+1, hard:+1} },
+    b:{ text:"조건을 조정해 실리를 챙긴다", note:"실리/현실", eff:{prag:+2, reform:+1, hard:-1} }
+  },
+  {
+    title:"개혁안을 올렸더니 기득권이 반발",
+    sub:"속도를 낼지, 설득할지.",
+    a:{ text:"점진적으로 합의하며 추진", note:"유연/타협", eff:{reform:+1, central:-1, hard:-1, care:+1} },
+    b:{ text:"저항을 정리하고 강행", note:"결단/강경", eff:{reform:+2, central:+1, hard:+2, care:-1} }
+  },
+  {
+    title:"인재 등용 기준",
+    sub:"능력만 볼지, 충성/배경도 볼지.",
+    a:{ text:"시험·성과 중심으로 폭넓게 등용", note:"공정·실력", eff:{reform:+2, scholar:+1, prag:+1} },
+    b:{ text:"검증된 가문·충성도 중심", note:"안정·질서", eff:{central:+1, hard:+1, reform:-1} }
+  },
+  {
+    title:"왕실/궁중의 사치 논란",
+    sub:"민심과 권위를 동시에 고려해야 한다.",
+    a:{ text:"검소를 선언하고 지출 구조를 정리", note:"민심 관리", eff:{care:+1, reform:+1, prag:+1} },
+    b:{ text:"왕실 의례/권위를 유지하며 선을 긋는다", note:"권위 유지", eff:{central:+1, scholar:+1, care:-1} }
+  },
+  {
+    title:"변방에서 군사 충돌 조짐",
+    sub:"선제 대응 vs 외교로 시간 벌기",
+    a:{ text:"군을 정비하고 선제적으로 대비", note:"안보 우선", eff:{hard:+2, central:+1, prag:+1} },
+    b:{ text:"외교·교섭으로 충돌을 피한다", note:"유연 대응", eff:{hard:-1, prag:+1, care:+1} }
+  },
+  {
+    title:"학문/문화 정책",
+    sub:"국가 정체성과 시스템을 만든다.",
+    a:{ text:"제도·교육·기록에 투자", note:"학예/제도", eff:{scholar:+2, reform:+1, prag:+1} },
+    b:{ text:"현장 행정·치안·실무 역량 강화", note:"실무/현장", eff:{scholar:-1, hard:+1, prag:+1} }
+  },
+  {
+    title:"흉년 뒤 민란 조짐",
+    sub:"강경 진압 vs 원인 해결",
+    a:{ text:"원인을 파악하고 제도/구휼로 진정", note:"문제 해결형", eff:{care:+2, reform:+2, hard:-1} },
+    b:{ text:"질서를 위해 단호히 진압", note:"질서 회복형", eff:{hard:+2, central:+1, care:-1} }
+  },
+  {
+    title:"신하가 간언을 올렸다",
+    sub:"불편해도 듣는가, 선을 긋는가.",
+    a:{ text:"불편한 말도 기록하고 토론한다", note:"학문/협치", eff:{scholar:+1, central:-1, prag:+1} },
+    b:{ text:"국정 혼선을 막기 위해 선을 긋는다", note:"집권/결단", eff:{central:+2, hard:+1} }
+  },
+  {
+    title:"정치 세력 갈등(파벌)이 격화",
+    sub:"균형 유지 vs 한쪽 정리",
+    a:{ text:"균형을 잡고 견제 구조를 만든다", note:"분권/협치", eff:{central:-2, reform:+1, care:+1} },
+    b:{ text:"국정 효율을 위해 주도 세력을 확실히 세운다", note:"집권/효율", eff:{central:+2, prag:+1, hard:+1} }
+  },
+  {
+    title:"나라의 장기 전략을 고를 때",
+    sub:"미래 투자 vs 당장 성과",
+    a:{ text:"장기 제도개혁과 인프라에 투자", note:"미래형", eff:{reform:+2, scholar:+1, prag:+1} },
+    b:{ text:"당장 효과가 큰 정책으로 빠르게 성과", note:"성과형", eff:{prag:+2, hard:+1, scholar:-1} }
+  }
+];
+
+// 왕 프로필(27명). 값 범위: -3..+3 (대략)
+// 역사 “사실”을 단정하기보다 성향 이미지를 위한 창작적 프로필로 설계.
+const KINGS = [
+  {name:"태조",   tag:"개국·창업형",      bio:"판을 새로 짜는 ‘창업 군주’ 타입.", v:{reform:+3, central:+1, prag:+2, scholar:-1, hard:+1, care:+1}},
+  {name:"정종",   tag:"조정·안정형",      bio:"갈등을 줄이며 균형을 찾는 타입.", v:{reform:-1, central:-1, prag:+1, scholar:+1, hard:-2, care:+1}},
+  {name:"태종",   tag:"권력정비·결단형",  bio:"국가 엔진을 강하게 조여 성과를 내는 타입.", v:{reform:+2, central:+3, prag:+2, scholar:0, hard:+3, care:-1}},
+  {name:"세종",   tag:"제도·문화 르네상스형", bio:"사람·지식·제도를 키워 국력을 올리는 타입.", v:{reform:+3, central:+1, prag:+2, scholar:+3, hard:0, care:+2}},
+  {name:"문종",   tag:"정밀 운영형",      bio:"디테일로 안정적으로 굴리는 ‘운영형 리더’.", v:{reform:+1, central:0, prag:+1, scholar:+2, hard:-1, care:+1}},
+  {name:"단종",   tag:"이상·순수형",      bio:"원칙과 명분을 중시하는 타입.", v:{reform:+1, central:-2, prag:-1, scholar:+1, hard:-2, care:+2}},
+  {name:"세조",   tag:"강경 개편형",      bio:"질서를 위해 큰 수를 두는 ‘전환형’.", v:{reform:+2, central:+3, prag:+1, scholar:0, hard:+3, care:-1}},
+  {name:"예종",   tag:"정리·재정비형",    bio:"짧게라도 핵심을 정리하고 싶어하는 타입.", v:{reform:+1, central:+1, prag:+1, scholar:+1, hard:+1, care:0}},
+  {name:"성종",   tag:"제도 완성형",      bio:"규범과 시스템을 깔끔히 완성하는 타입.", v:{reform:+2, central:+1, prag:+1, scholar:+2, hard:0, care:+1}},
+  {name:"연산군", tag:"감정 폭주형",      bio:"스트레스가 쌓이면 극단으로 치닫기 쉬운 타입(주의).", v:{reform:-2, central:+3, prag:-2, scholar:-2, hard:+3, care:-3}},
+  {name:"중종",   tag:"균형 복원형",      bio:"무너진 균형을 되돌리려는 ‘복원형’.", v:{reform:+1, central:-1, prag:+1, scholar:+1, hard:-1, care:+1}},
+  {name:"인종",   tag:"조정·배려형",      bio:"갈등을 낮추고 관계를 정리하는 타입.", v:{reform:+1, central:-1, prag:0, scholar:+1, hard:-2, care:+2}},
+  {name:"명종",   tag:"불안정 대응형",    bio:"난국에서 타협과 단속을 오가는 타입.", v:{reform:0, central:+1, prag:+1, scholar:+1, hard:+1, care:0}},
+  {name:"선조",   tag:"관계·인사형",      bio:"사람과 세력의 흐름에 민감한 타입.", v:{reform:-1, central:0, prag:-1, scholar:+1, hard:-1, care:+1}},
+  {name:"광해군", tag:"실리 외교형",      bio:"현실적 리스크 관리에 강한 타입.", v:{reform:+1, central:+1, prag:+3, scholar:+1, hard:+1, care:0}},
+  {name:"인조",   tag:"명분 고집형",      bio:"원칙을 우선하다가 실리가 흔들릴 수 있는 타입.", v:{reform:-2, central:+1, prag:-2, scholar:+1, hard:+1, care:-1}},
+  {name:"효종",   tag:"안보·준비형",      bio:"힘을 기르고 대비하는 ‘준비형 리더’.", v:{reform:+1, central:+2, prag:+1, scholar:0, hard:+3, care:0}},
+  {name:"현종",   tag:"갈등 완충형",      bio:"논쟁을 중재하고 안정으로 끌고 가는 타입.", v:{reform:0, central:-1, prag:+1, scholar:+1, hard:-1, care:+1}},
+  {name:"숙종",   tag:"정치 전술형",      bio:"판세를 읽고 타이밍을 잡는 타입.", v:{reform:+1, central:+2, prag:+2, scholar:+1, hard:+1, care:-1}},
+  {name:"경종",   tag:"신중·방어형",      bio:"리스크를 줄이며 조심스럽게 가는 타입.", v:{reform:-1, central:-1, prag:+1, scholar:+1, hard:-2, care:+1}},
+  {name:"영조",   tag:"균형·통합형",      bio:"분열을 묶고 제도를 다듬는 ‘통합형’.", v:{reform:+2, central:+1, prag:+2, scholar:+2, hard:+1, care:+1}},
+  {name:"정조",   tag:"개혁 드라이브형",  bio:"비전과 실행으로 시스템을 밀어붙이는 타입.", v:{reform:+3, central:+2, prag:+2, scholar:+2, hard:+1, care:+1}},
+  {name:"순조",   tag:"관성·안정형",      bio:"큰 변화보다 유지에 무게를 두는 타입.", v:{reform:-2, central:0, prag:+1, scholar:0, hard:0, care:0}},
+  {name:"헌종",   tag:"관망·정리형",      bio:"상황을 보며 정리하려는 타입.", v:{reform:-1, central:-1, prag:+1, scholar:+1, hard:-1, care:+1}},
+  {name:"철종",   tag:"현실 생존형",      bio:"주어진 조건에서 버티며 실리를 찾는 타입.", v:{reform:0, central:-1, prag:+2, scholar:0, hard:0, care:0}},
+  {name:"고종",   tag:"격동 관리형",      bio:"거대한 변화 속에서 선택을 강요받는 타입.", v:{reform:+1, central:+1, prag:+1, scholar:+1, hard:0, care:0}},
+  {name:"순종",   tag:"책임·배려형",      bio:"관계와 책임을 크게 느끼는 타입.", v:{reform:-1, central:-2, prag:0, scholar:+1, hard:-2, care:+2}},
+];
+
+/* =========================
+   1) 유틸
+   ========================= */
+const $ = (sel) => document.querySelector(sel);
+const screen = $("#screen");
+const statusPill = $("#statusPill");
+const toast = $("#toast");
+
+function clampScore(n){ return Math.max(-CLAMP, Math.min(CLAMP, n)); }
+function showToast(msg){
+  toast.textContent = msg;
+  toast.style.display = "block";
+  clearTimeout(showToast._t);
+  showToast._t = setTimeout(()=> toast.style.display="none", 1800);
+}
+
+function encodeChoices(arr){
+  // 0/1 배열 -> 비트 문자열 -> base64url
+  const bits = arr.map(x=>x?1:0).join("");
+  let hex = "";
+  for(let i=0;i<bits.length;i+=4){
+    const chunk = bits.slice(i,i+4).padEnd(4,"0");
+    hex += parseInt(chunk,2).toString(16);
+  }
+  // hex -> bytes
+  const bytes = [];
+  for(let i=0;i<hex.length;i+=2) bytes.push(parseInt(hex.slice(i,i+2).padEnd(2,"0"),16));
+  let bin = "";
+  bytes.forEach(b=> bin += String.fromCharCode(b));
+  return btoa(bin).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"");
+}
+function decodeChoices(str, n){
+  try{
+    const b64 = str.replace(/-/g,"+").replace(/_/g,"/");
+    const bin = atob(b64);
+    const bytes = [...bin].map(ch=> ch.charCodeAt(0));
+    let hex = bytes.map(b=> b.toString(16).padStart(2,"0")).join("");
+    let bits = "";
+    for(const h of hex){
+      bits += parseInt(h,16).toString(2).padStart(4,"0");
+    }
+    const arr = bits.slice(0,n).split("").map(c=> c==="1"?1:0);
+    if(arr.length!==n) return null;
+    return arr;
+  }catch(e){ return null; }
+}
+
+function dist(a,b){
+  let s=0;
+  for(const ax of AXES){
+    const k=ax.key;
+    const d=(a[k]||0)-(b[k]||0);
+    s += d*d;
+  }
+  return Math.sqrt(s);
+}
+function similarityScore(userV, kingV){
+  const d = dist(userV, kingV);
+  return 1/(1+d); // 0~1
+}
+function pct(n){ return Math.round(n*100); }
+
+/* =========================
+   2) 상태
+   ========================= */
+let step = 0;
+let choices = Array(QUESTIONS.length).fill(null); // 0(A) / 1(B)
+
+function computeUserVector(){
+  const v = Object.fromEntries(AXES.map(a=>[a.key,0]));
+  for(let i=0;i<QUESTIONS.length;i++){
+    const c = choices[i];
+    if(c===null) continue;
+    const eff = (c===0 ? QUESTIONS[i].a.eff : QUESTIONS[i].b.eff);
+    for(const k in eff) v[k] = clampScore((v[k]||0) + eff[k]);
+  }
+  return v;
+}
+
+function computeRanking(){
+  const u = computeUserVector();
+  const scored = KINGS.map(kg=>{
+    const s = similarityScore(u, kg.v);
+    return { ...kg, score:s };
+  }).sort((x,y)=> y.score - x.score);
+
+  // 상위 3 퍼센트(상대값으로 보기 좋게 정규화)
+  const max = scored[0].score || 1;
+  const top3 = scored.slice(0,3).map(x=> ({...x, rel: x.score/max}));
+  return {u, scored, top3};
+}
+
+/* =========================
+   3) 화면 렌더
+   ========================= */
+function renderHome(){
+  statusPill.textContent = "대기 중";
+  screen.innerHTML = `
+    <div class="card hero">
+      <h1>당신의 통치 스타일은 어떤 왕과 닮았을까?</h1>
+      <p>
+        12개의 상황에서 선택을 하면, 성향 점수(6축)를 계산해
+        <b>조선 왕 27명 중 가장 가까운 인물</b>을 매칭해줘.
+      </p>
+      <div class="sp"></div>
+      <div class="row">
+        <span class="badge">⏱ 약 1분</span>
+        <span class="badge">🔗 결과 링크 공유</span>
+        <span class="badge">📌 해설 포함</span>
+      </div>
+      <div class="btns">
+        <button class="primary" id="startBtn">게임 시작</button>
+        <button class="ghost" id="loadBtn">링크로 결과 불러오기</button>
+      </div>
+      <p class="hint" style="margin-top:10px">
+        * “링크로 결과 불러오기”는 URL에 저장된 선택값을 읽어 복원해.
+      </p>
+    </div>
+  `;
+  $("#startBtn").onclick = ()=>{
+    step = 0;
+    choices = Array(QUESTIONS.length).fill(null);
+    renderQuestion();
+  };
+  $("#loadBtn").onclick = ()=>{
+    const h = location.hash.replace(/^#/,"").trim();
+    if(!h){ showToast("불러올 링크 정보가 없어요."); return; }
+    const decoded = decodeChoices(h, QUESTIONS.length);
+    if(!decoded){ showToast("링크 정보가 깨졌어요."); return; }
+    choices = decoded;
+    step = QUESTIONS.length;
+    renderResult();
+  };
+}
+
+function renderQuestion(){
+  statusPill.textContent = `진행 ${step+1}/${QUESTIONS.length}`;
+  const q = QUESTIONS[step];
+  const prog = Math.round((step/QUESTIONS.length)*100);
+
+  screen.innerHTML = `
+    <div class="card">
+      <div class="progress" aria-label="progress"><div class="bar" style="width:${prog}%"></div></div>
+      <div style="height:12px"></div>
+      <div class="qhead">
+        <div>
+          <div class="qno">Q${step+1}</div>
+          <p class="qtxt">${q.title}</p>
+          <p class="qsub">${q.sub}</p>
+        </div>
+        <div class="pill">선택 2개</div>
+      </div>
+
+      <div class="choices">
+        <button class="choice" id="aBtn">
+          A. ${q.a.text}
+          <small>${q.a.note}</small>
+        </button>
+        <button class="choice" id="bBtn">
+          B. ${q.b.text}
+          <small>${q.b.note}</small>
+        </button>
+      </div>
+
+      <div class="btns" style="margin-top:14px">
+        <button class="ghost" id="backBtn" ${step===0?"disabled":""}>이전</button>
+        <button class="ghost" id="homeBtn">처음으로</button>
+      </div>
+      <p class="hint">팁: 직감대로 고르는 게 결과가 다양해져.</p>
+    </div>
+  `;
+
+  $("#aBtn").onclick = ()=> { choices[step]=0; step++; step>=QUESTIONS.length ? renderResult() : renderQuestion(); };
+  $("#bBtn").onclick = ()=> { choices[step]=1; step++; step>=QUESTIONS.length ? renderResult() : renderQuestion(); };
+  $("#backBtn").onclick = ()=> { if(step>0){ step--; renderQuestion(); } };
+  $("#homeBtn").onclick = ()=> { renderHome(); };
+}
+
+function renderResult(){
+  statusPill.textContent = "결과";
+  const {u, top3} = computeRanking();
+  const best = top3[0];
+
+  // 점수 표시용 0~100
+  const axisToPct = (val)=> Math.round(((val + CLAMP) / (2*CLAMP)) * 100);
+
+  const scoreHtml = AXES.map(ax=>{
+    const v = u[ax.key]||0;
+    const p = axisToPct(v);
+    const left = ax.left, right = ax.right;
+    return `
+      <div class="scoreRow">
+        <div class="lab"><span>${ax.name}</span><span>${v>0?right:(v<0?left:"중간")}</span></div>
+        <div class="meter"><div style="width:${p}%"></div></div>
       </div>
     `;
+  }).join("");
+
+  const top3Html = top3.map((k,i)=>`
+    <div class="item">
+      <div>
+        <span class="b">${i+1}. ${k.name}</span>
+        <span class="muted" style="font-size:12px"> · ${k.tag}</span>
+      </div>
+      <div class="badge">${pct(k.rel)}%</div>
+    </div>
+  `).join("");
+
+  screen.innerHTML = `
+    <div class="card resultTop">
+      <div class="row">
+        <span class="badge">🏆 최종 매칭</span>
+        <span class="badge">🔎 상위 3명 제공</span>
+      </div>
+      <h2 class="kingName">${best.name}</h2>
+      <p class="tagline"><b>${best.tag}</b> — ${best.bio}</p>
+
+      <div class="sp"></div>
+
+      <div class="grid" style="gap:12px">
+        <div class="card" style="padding:14px">
+          <div class="row" style="justify-content:space-between">
+            <div class="b">당신의 성향 점수</div>
+            <div class="pill">6축 분석</div>
+          </div>
+          <div class="scores" style="margin-top:10px">${scoreHtml}</div>
+        </div>
+
+        <div class="card" style="padding:14px">
+          <div class="row" style="justify-content:space-between">
+            <div class="b">상위 3명</div>
+            <div class="pill">가까운 후보</div>
+          </div>
+          <div class="top3" style="margin-top:10px">${top3Html}</div>
+          <p class="hint" style="margin-top:8px">
+            %는 “1위와의 상대적 유사도”야. 2~3위가 비슷하면 성향이 복합형이라는 뜻.
+          </p>
+        </div>
+
+        <div class="card" style="padding:14px">
+          <div class="b">해설(읽는 법)</div>
+          <p class="hint" style="margin:8px 0 0">
+            - <span class="b">개혁/변화</span>: 규칙을 바꾸며 판을 새로 짜는가?<br/>
+            - <span class="b">집권/권위</span>: 중앙으로 모아 빠르게 추진하는가?<br/>
+            - <span class="b">실리/현실</span>: 손해를 줄이고 결과를 챙기는가?<br/>
+            - <span class="b">학문/문화</span>: 기록·교육·제도를 중시하는가?<br/>
+            - <span class="b">강경/결단</span>: 단호한 조치로 질서를 세우는가?<br/>
+            - <span class="b">민생/공감</span>: 백성 체감과 현장 문제를 먼저 보는가?
+          </p>
+        </div>
+      </div>
+
+      <div class="btns" style="margin-top:14px">
+        <button class="primary" id="copyBtn">결과 링크 복사</button>
+        <button id="retryBtn">다시하기</button>
+        <button class="ghost" id="homeBtn2">처음으로</button>
+      </div>
+      <p class="hint">블로그에는 아래 “결과 링크”를 걸면 바로 테스트가 열려.</p>
+      <div class="card" style="padding:12px;margin-top:10px">
+        <div class="muted" style="font-size:12px">공유 링크</div>
+        <div class="b" id="shareUrl" style="word-break:break-all;margin-top:6px"></div>
+      </div>
+    </div>
+  `;
+
+  const hash = encodeChoices(choices.map(x=>x?1:0));
+  const url = `${location.origin}${location.pathname}#${hash}`;
+  $("#shareUrl").textContent = url;
+
+  $("#copyBtn").onclick = async ()=>{
+    try{
+      await navigator.clipboard.writeText(url);
+      showToast("복사됨!");
+    }catch(e){
+      // 클립보드 막힌 환경 대비
+      prompt("아래 링크를 길게 눌러 복사해줘.", url);
+    }
+  };
+  $("#retryBtn").onclick = ()=>{
+    step = 0;
+    choices = Array(QUESTIONS.length).fill(null);
+    renderQuestion();
+  };
+  $("#homeBtn2").onclick = ()=> renderHome();
+
+  // 주소창 해시에도 반영(새로고침해도 결과 복원)
+  if(location.hash.replace(/^#/,"") !== hash){
+    history.replaceState(null, "", `#${hash}`);
+  }
+}
+
+/* =========================
+   4) 시작 시 링크 복원
+   ========================= */
+(function init(){
+  const h = location.hash.replace(/^#/,"").trim();
+  const decoded = h ? decodeChoices(h, QUESTIONS.length) : null;
+  if(decoded){
+    choices = decoded;
+    step = QUESTIONS.length;
+    renderResult();
+  }else{
+    renderHome();
   }
 })();
 </script>
