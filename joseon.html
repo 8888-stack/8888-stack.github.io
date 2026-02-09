@@ -3,516 +3,878 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>조선시대 왕 성향 테스트</title>
+  <title>조선 왕 성향 테스트 (20문항 · 4지선다)</title>
+  <meta name="description" content="20문항 4지선다로 조선 왕 27명 중 나와 가장 닮은 왕을 매칭하고 해설을 제공합니다." />
   <style>
     :root{
-      --bg:#0b1020; --card:rgba(255,255,255,.06); --line:rgba(255,255,255,.12);
-      --txt:#e9efff; --sub:#9fb0d6; --acc:#6ea8ff; --good:#7dffb2; --warn:#ffcf6e;
+      --bg:#0b1020;
+      --card:rgba(255,255,255,.06);
+      --card2:rgba(255,255,255,.04);
+      --line:rgba(255,255,255,.12);
+      --txt:#e9efff;
+      --sub:#9fb0d6;
+      --acc:#6ea8ff;
+      --acc2:#a78bfa;
+      --good:#7dffb2;
+      --warn:#ffcf6e;
+      --bad:#ff7d7d;
+      --shadow:0 18px 45px rgba(0,0,0,.45);
+      --r:18px;
     }
     *{box-sizing:border-box}
-    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;background:var(--bg);color:var(--txt)}
-    a{color:inherit}
-    .wrap{max-width:920px;margin:0 auto;padding:20px 16px 60px}
-    .top{display:flex;gap:10px;align-items:center;justify-content:space-between;margin-bottom:14px}
-    .brand{display:flex;align-items:center;gap:10px}
-    .logo{width:34px;height:34px;border-radius:12px;background:linear-gradient(135deg,var(--acc),#a78bfa);display:grid;place-items:center;font-weight:900}
-    .title{font-size:18px;font-weight:900;margin:0}
-    .pill{font-size:12px;color:var(--sub);border:1px solid var(--line);padding:6px 10px;border-radius:999px;background:rgba(255,255,255,.03)}
-    .card{border:1px solid var(--line);background:var(--card);border-radius:18px;padding:16px}
-    .grid{display:grid;gap:12px}
-    .hero{padding:18px}
-    .hero h1{margin:0 0 8px;font-size:22px}
-    .hero p{margin:0;color:var(--sub);line-height:1.6}
-    .btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
-    button{appearance:none;border:1px solid var(--line);background:rgba(255,255,255,.04);color:var(--txt);
-      border-radius:14px;padding:12px 14px;font-weight:800;cursor:pointer}
-    button.primary{border-color:rgba(110,168,255,.55);background:rgba(110,168,255,.16)}
-    button.ghost{background:transparent}
-    button:active{transform:translateY(1px)}
-    .progress{height:10px;border-radius:999px;background:rgba(255,255,255,.08);overflow:hidden;border:1px solid var(--line)}
-    .bar{height:100%;width:0;background:linear-gradient(90deg,var(--acc),#a78bfa)}
-    .qhead{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
-    .qno{font-weight:900}
-    .qtxt{font-size:18px;font-weight:900;line-height:1.35;margin:0 0 6px}
-    .qsub{margin:0;color:var(--sub);line-height:1.55}
-    .choices{display:grid;gap:10px;margin-top:12px}
-    .choice{padding:14px;border-radius:16px;text-align:left}
-    .choice small{display:block;color:var(--sub);font-weight:700;margin-top:6px}
-    .muted{color:var(--sub)}
-    .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-    .sp{height:1px;background:var(--line);margin:14px 0}
-    .resultTop{display:grid;gap:10px}
-    .kingName{font-size:22px;font-weight:1000;margin:0}
-    .tagline{margin:0;color:var(--sub);line-height:1.6}
-    .badge{display:inline-flex;gap:8px;align-items:center;border:1px solid var(--line);
-      background:rgba(255,255,255,.04);padding:6px 10px;border-radius:999px;font-size:12px;color:var(--sub)}
-    .b{font-weight:900;color:var(--txt)}
-    .scores{display:grid;gap:10px}
-    .scoreRow{display:grid;gap:6px}
-    .scoreRow .lab{display:flex;justify-content:space-between;gap:10px;color:var(--sub);font-size:12px}
-    .meter{height:10px;border-radius:999px;background:rgba(255,255,255,.08);overflow:hidden;border:1px solid var(--line)}
-    .meter > div{height:100%;width:50%;background:linear-gradient(90deg,#7dd3fc,#a78bfa)}
-    .top3{display:grid;gap:8px}
-    .top3 .item{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:10px;border-radius:14px;border:1px solid var(--line);background:rgba(255,255,255,.03)}
-    .hint{font-size:12px;color:var(--sub);line-height:1.6}
-    .toast{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);background:rgba(0,0,0,.55);
-      border:1px solid rgba(255,255,255,.18);color:var(--txt);padding:10px 12px;border-radius:12px;display:none;max-width:90vw}
-    .footer{margin-top:14px;color:var(--sub);font-size:12px;line-height:1.7}
-    @media (min-width:700px){
-      .hero h1{font-size:26px}
+    body{
+      margin:0;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;
+      background:
+        radial-gradient(1200px 600px at 20% 0%, rgba(110,168,255,.14), transparent 55%),
+        radial-gradient(900px 600px at 85% 20%, rgba(167,139,250,.12), transparent 55%),
+        linear-gradient(180deg, #0b1020 0%, #060816 100%);
+      color:var(--txt);
     }
+    a{color:inherit}
+    .wrap{max-width:980px;margin:0 auto;padding:18px 16px 60px}
+    .top{
+      display:flex;align-items:center;justify-content:space-between;gap:12px;
+      margin-bottom:12px;
+    }
+    .brand{display:flex;gap:10px;align-items:center}
+    .logo{
+      width:36px;height:36px;border-radius:14px;display:grid;place-items:center;
+      background:linear-gradient(135deg,var(--acc),var(--acc2));
+      font-weight:1000;
+      box-shadow: var(--shadow);
+    }
+    .title{margin:0;font-weight:1000;letter-spacing:-.2px}
+    .subtitle{margin:2px 0 0;color:var(--sub);font-size:12px;line-height:1.5}
+    .pill{
+      font-size:12px;color:var(--sub);
+      border:1px solid var(--line);background:rgba(255,255,255,.03);
+      padding:6px 10px;border-radius:999px;white-space:nowrap;
+    }
+    .grid{display:grid;gap:12px}
+    .card{
+      border:1px solid var(--line);
+      background:var(--card);
+      border-radius:var(--r);
+      padding:16px;
+      box-shadow: var(--shadow);
+    }
+    .hero h1{margin:0 0 8px;font-size:22px}
+    .hero p{margin:0;color:var(--sub);line-height:1.65}
+    .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+    .badge{
+      display:inline-flex;gap:8px;align-items:center;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.04);
+      padding:6px 10px;border-radius:999px;
+      font-size:12px;color:var(--sub);
+    }
+    .badge b{color:var(--txt)}
+    .btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+    button{
+      appearance:none;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.04);
+      color:var(--txt);
+      border-radius:14px;
+      padding:12px 14px;
+      font-weight:900;
+      cursor:pointer;
+    }
+    button.primary{
+      border-color:rgba(110,168,255,.55);
+      background:rgba(110,168,255,.18);
+    }
+    button.ghost{background:transparent}
+    button:disabled{opacity:.55;cursor:not-allowed}
+    .progress{
+      height:10px;border-radius:999px;overflow:hidden;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.08);
+    }
+    .bar{height:100%;width:0;background:linear-gradient(90deg,var(--acc),var(--acc2))}
+    .qhead{display:flex;gap:12px;align-items:flex-start;justify-content:space-between}
+    .qno{font-weight:1000}
+    .qtxt{margin:0 0 6px;font-size:20px;font-weight:1000;line-height:1.35;letter-spacing:-.2px}
+    .qsub{margin:0;color:var(--sub);line-height:1.6}
+    .choices{display:grid;gap:10px;margin-top:12px}
+    .choice{
+      width:100%;
+      text-align:left;
+      padding:14px;
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(255,255,255,.04);
+      transition:.12s;
+    }
+    .choice:hover{border-color:rgba(110,168,255,.45);background:rgba(110,168,255,.08)}
+    .choice .k{display:flex;gap:10px;align-items:flex-start}
+    .choice .key{
+      min-width:26px;height:26px;border-radius:10px;
+      background:rgba(110,168,255,.14);
+      border:1px solid rgba(110,168,255,.28);
+      display:grid;place-items:center;
+      font-weight:1000;color:var(--acc);
+    }
+    .choice .main{font-weight:900;line-height:1.45}
+    .choice .note{margin-top:6px;color:var(--sub);font-size:12px;line-height:1.55}
+    .sep{height:1px;background:var(--line);margin:14px 0}
+    .hint{color:var(--sub);font-size:12px;line-height:1.65;margin:10px 0 0}
+    .resultTop{display:grid;gap:10px}
+    .kingName{margin:0;font-size:24px;font-weight:1000;letter-spacing:-.2px}
+    .tagline{margin:0;color:var(--sub);line-height:1.65}
+    .twoCol{display:grid;gap:12px}
+    @media (min-width:900px){
+      .twoCol{grid-template-columns:1.1fr .9fr;align-items:start}
+      .sticky{position:sticky;top:12px}
+    }
+    .scoreGrid{display:grid;gap:10px}
+    .scoreRow{display:grid;gap:6px}
+    .scoreRow .lab{
+      display:flex;justify-content:space-between;gap:10px;
+      color:var(--sub);font-size:12px;
+    }
+    .meter{height:10px;border-radius:999px;overflow:hidden;border:1px solid var(--line);background:rgba(255,255,255,.08)}
+    .meter > div{height:100%;width:50%;background:linear-gradient(90deg,#7dd3fc,#a78bfa)}
+    .list{margin:8px 0 0;padding-left:18px;line-height:1.7;color:var(--txt)}
+    .muted{color:var(--sub)}
+    .rank{display:grid;gap:8px;margin-top:10px}
+    .rank .item{
+      display:flex;justify-content:space-between;gap:10px;align-items:center;
+      padding:10px 12px;border-radius:14px;border:1px solid var(--line);background:rgba(255,255,255,.03)
+    }
+    .rank .item b{font-weight:1000}
+    .tiny{
+      font-size:12px;color:var(--sub);line-height:1.65
+    }
+    .linkBox{
+      margin-top:10px;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.03);
+      border-radius:14px;
+      padding:10px 12px;
+      word-break:break-all;
+      font-weight:700;
+    }
+    .toast{
+      position:fixed;left:50%;bottom:16px;transform:translateX(-50%);
+      display:none;max-width:92vw;
+      border:1px solid rgba(255,255,255,.18);
+      background:rgba(0,0,0,.55);
+      padding:10px 12px;border-radius:12px;
+    }
+    details{
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.03);
+      border-radius:14px;
+      padding:10px 12px;
+    }
+    summary{cursor:pointer;font-weight:900}
   </style>
 </head>
+
 <body>
 <div class="wrap">
   <div class="top">
     <div class="brand">
       <div class="logo">👑</div>
       <div>
-        <p class="title">조선시대 왕 성향 테스트</p>
-        <div class="muted" style="font-size:12px">선택형 · 결과+해설 · 27명 전원 매칭</div>
+        <p class="title">조선 왕 성향 테스트</p>
+        <p class="subtitle">20문항 · 4지선다 · 결과+해설 · 27명 전원 매칭(연산군/광해군 포함)</p>
       </div>
     </div>
-    <div class="pill" id="statusPill">대기 중</div>
+    <div class="pill" id="statusPill">대기</div>
   </div>
 
   <div id="screen" class="grid"></div>
 
-  <div class="footer">
-    * 재미를 위한 성향 테스트입니다. 역사적 평가는 단순화/각색되어 있습니다. <br/>
-    * 결과 링크는 “당신의 선택”만 저장합니다(개인정보 저장 없음).
+  <div class="tiny" style="margin-top:14px">
+    * 본 테스트는 <b>놀이/창작 목적</b>의 성향 매칭입니다. 역사적 평가는 단순화/각색이 포함됩니다.<br/>
+    * 결과 링크는 당신의 <b>선택(답안)</b>만 URL 해시(#...)로 저장합니다(서버 저장 없음).
   </div>
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script>
-/* =========================
-   0) 데이터(질문/축/왕 프로필)
-   ========================= */
+/* ===============================
+   1) 축(8개) 정의
+   =============================== */
 const AXES = [
-  { key:"reform",   name:"개혁/변화", left:"현상 유지", right:"제도 개편" },
-  { key:"central",  name:"집권/권위", left:"분권/협치", right:"강한 리더십" },
-  { key:"prag",     name:"실리/현실", left:"명분/원칙", right:"현실적 선택" },
-  { key:"scholar",  name:"학문/문화", left:"실무/현장", right:"제도·학예" },
-  { key:"hard",     name:"강경/결단", left:"유연/타협", right:"단호한 조치" },
-  { key:"care",     name:"민생/공감", left:"국가 우선", right:"백성 우선" }
+  {key:"R", name:"개혁/변화", left:"유지", right:"개편"},
+  {key:"C", name:"집권/권위", left:"협치", right:"강권"},
+  {key:"P", name:"실리/현실", left:"명분", right:"실리"},
+  {key:"S", name:"학문/제도", left:"현장", right:"제도"},
+  {key:"M", name:"군사/안보", left:"외교", right:"군사"},
+  {key:"L", name:"엄정/통제", left:"온건", right:"엄정"},
+  {key:"T", name:"기록/투명", left:"비공개", right:"투명"},
+  {key:"E", name:"민생/공감", left:"국가", right:"민생"},
 ];
-// 점수 범위(대략)
-const CLAMP = 10;
 
-// 질문: 각 선택이 축에 더하는 값(+-)
+// 0~100 스케일, 기본 50(중립)
+const BASE = 50;
+const CLAMP_MIN = 0, CLAMP_MAX = 100;
+
+/* ===============================
+   2) 20문항(4지선다)
+   - 각 옵션은 여러 축에 +- 가중치
+   =============================== */
 const QUESTIONS = [
   {
-    title:"즉위 첫날, 권력 기반을 다질 때",
-    sub:"새로 오른 왕좌. 첫 조치가 분위기를 만든다.",
-    a:{ text:"대신·종친과 공개 협의로 균형을 만든다", note:"협치/분권형", eff:{central:-2, care:+1, hard:-1} },
-    b:{ text:"핵심 권한을 궁과 중앙으로 모아 빠르게 장악한다", note:"집권/권위형", eff:{central:+2, hard:+1, prag:+1} }
+    title:"즉위 첫날, 왕권을 어떻게 세울까?",
+    sub:"첫 조치는 조정의 신호가 된다.",
+    opt:[
+      {k:"A", text:"대신·종친과 공개 협의로 ‘합의 구조’부터 만든다", note:"협치·투명", eff:{C:-10,T:+10,E:+5}},
+      {k:"B", text:"핵심 권한을 궁과 중앙으로 모아 ‘컨트롤 타워’를 세운다", note:"집권·결단", eff:{C:+12,L:+6,P:+6}},
+      {k:"C", text:"법·규정부터 정비하고 표준 프로세스를 박는다", note:"제도·기록", eff:{S:+10,T:+8,L:+4}},
+      {k:"D", text:"정국을 읽고 유력 세력을 적절히 안배하며 ‘판’을 안정화", note:"정치·실리", eff:{P:+10,C:+4,R:+2}},
+    ]
   },
   {
-    title:"대가뭄으로 민심이 흔들린다",
-    sub:"구휼이 늦으면 혼란이 커진다.",
-    a:{ text:"세금·부역을 줄이고 구휼을 최우선으로 시행", note:"민생 우선", eff:{care:+2, prag:+1, reform:+1} },
-    b:{ text:"국고·군량부터 지키며 질서를 단속", note:"국가 안정", eff:{care:-1, hard:+2, central:+1} }
+    title:"대가뭄. 민심이 흔들린다",
+    sub:"우선순위를 정해야 한다.",
+    opt:[
+      {k:"A", text:"세금·부역 감면 + 대규모 구휼로 체감부터 만든다", note:"민생", eff:{E:+14,R:+6,P:+4}},
+      {k:"B", text:"국고·군량을 지키며 치안/질서부터 단속한다", note:"안정·통제", eff:{L:+12,C:+8,E:-4}},
+      {k:"C", text:"재정 구조를 손봐 ‘지속 가능한 구휼 시스템’으로 바꾼다", note:"제도개혁", eff:{R:+12,S:+6,P:+6}},
+      {k:"D", text:"지역 유력층/향약을 활용해 분산 지원(중앙 부담 최소화)", note:"분권·실리", eff:{C:-6,P:+10,E:+4}},
+    ]
   },
   {
-    title:"강대국 외교, 압박이 거세다",
-    sub:"명분을 지킬지, 피해를 줄일지.",
-    a:{ text:"원칙을 세워 외교 명분을 지킨다", note:"명분/원칙", eff:{prag:-2, scholar:+1, hard:+1} },
-    b:{ text:"조건을 조정해 실리를 챙긴다", note:"실리/현실", eff:{prag:+2, reform:+1, hard:-1} }
+    title:"강대국이 무리한 요구를 한다",
+    sub:"외교 전략을 선택하라.",
+    opt:[
+      {k:"A", text:"원칙과 명분을 세워 선을 분명히 긋는다", note:"명분", eff:{P:-12,M:+4,L:+4}},
+      {k:"B", text:"조건을 조정해 피해를 줄이고 실리를 챙긴다", note:"실리", eff:{P:+14,M:-4,R:+4}},
+      {k:"C", text:"장기전 대비: 학문·기술·제도 투자로 국력부터 올린다", note:"제도/학예", eff:{S:+12,R:+8,M:+2}},
+      {k:"D", text:"군사 대비를 강화해 억지력을 만든다", note:"안보", eff:{M:+14,C:+6,L:+4}},
+    ]
   },
   {
-    title:"개혁안을 올렸더니 기득권이 반발",
-    sub:"속도를 낼지, 설득할지.",
-    a:{ text:"점진적으로 합의하며 추진", note:"유연/타협", eff:{reform:+1, central:-1, hard:-1, care:+1} },
-    b:{ text:"저항을 정리하고 강행", note:"결단/강경", eff:{reform:+2, central:+1, hard:+2, care:-1} }
+    title:"기득권이 개혁안에 반발한다",
+    sub:"어떻게 추진할까?",
+    opt:[
+      {k:"A", text:"공론화(토론)로 설득하고 단계적으로 간다", note:"투명·합의", eff:{T:+10,R:+6,C:-6}},
+      {k:"B", text:"핵심만 빠르게 통과시키고 나머지는 뒤로 미룬다", note:"실리·속도", eff:{P:+10,R:+4}},
+      {k:"C", text:"저항 세력을 정리하고 강행한다", note:"강권", eff:{C:+10,L:+10,R:+8,E:-6}},
+      {k:"D", text:"대신 인사를 재배치해 균형을 새로 짠다", note:"정치 전술", eff:{C:+4,P:+8,R:+2}},
+    ]
   },
   {
-    title:"인재 등용 기준",
-    sub:"능력만 볼지, 충성/배경도 볼지.",
-    a:{ text:"시험·성과 중심으로 폭넓게 등용", note:"공정·실력", eff:{reform:+2, scholar:+1, prag:+1} },
-    b:{ text:"검증된 가문·충성도 중심", note:"안정·질서", eff:{central:+1, hard:+1, reform:-1} }
+    title:"인재 등용의 기준은?",
+    sub:"인사가 곧 국정이다.",
+    opt:[
+      {k:"A", text:"시험·성과 중심, 출신보다 실력을 본다", note:"공정·제도", eff:{R:+10,S:+6,T:+4}},
+      {k:"B", text:"검증된 가문·충성 중심으로 안정성을 확보", note:"안정", eff:{C:+8,L:+6,T:-2}},
+      {k:"C", text:"현장형 실무자를 전격 등용해 성과를 낸다", note:"현실·성과", eff:{P:+10,S:-4,E:+4}},
+      {k:"D", text:"세력 균형을 고려해 ‘갈등 최소 인사’", note:"협치", eff:{C:-6,P:+6,E:+6}},
+    ]
   },
   {
-    title:"왕실/궁중의 사치 논란",
-    sub:"민심과 권위를 동시에 고려해야 한다.",
-    a:{ text:"검소를 선언하고 지출 구조를 정리", note:"민심 관리", eff:{care:+1, reform:+1, prag:+1} },
-    b:{ text:"왕실 의례/권위를 유지하며 선을 긋는다", note:"권위 유지", eff:{central:+1, scholar:+1, care:-1} }
+    title:"부패 사건이 터졌다",
+    sub:"처리 방식이 정권 성격을 만든다.",
+    opt:[
+      {k:"A", text:"법대로 엄정 처벌 + 재발 방지 규정 신설", note:"엄정·제도", eff:{L:+12,S:+6,T:+4}},
+      {k:"B", text:"본보기 몇 명만 강하게 치고 빠르게 수습", note:"강경·속도", eff:{L:+10,C:+6,P:+6,T:-4}},
+      {k:"C", text:"구조를 뜯어고쳐 ‘부패 유인을 제거’", note:"개혁", eff:{R:+12,T:+6,E:+2}},
+      {k:"D", text:"지역 자치/감사 기능을 키워 분산 통제", note:"분권", eff:{C:-8,T:+6,R:+4}},
+    ]
   },
   {
-    title:"변방에서 군사 충돌 조짐",
-    sub:"선제 대응 vs 외교로 시간 벌기",
-    a:{ text:"군을 정비하고 선제적으로 대비", note:"안보 우선", eff:{hard:+2, central:+1, prag:+1} },
-    b:{ text:"외교·교섭으로 충돌을 피한다", note:"유연 대응", eff:{hard:-1, prag:+1, care:+1} }
+    title:"변방 충돌 조짐",
+    sub:"국방·외교 선택.",
+    opt:[
+      {k:"A", text:"외교로 시간 벌고 내부 체력부터 만든다", note:"외교·제도", eff:{M:-10,S:+6,R:+6}},
+      {k:"B", text:"군사력을 강화해 선제 억지력을 만든다", note:"군사", eff:{M:+14,C:+6,L:+4}},
+      {k:"C", text:"정확한 정보·기록 체계로 전쟁 리스크를 관리", note:"기록/투명", eff:{T:+12,P:+6,M:+2}},
+      {k:"D", text:"민생을 지키기 위해 방어 위주로 최소 충돌", note:"민생", eff:{E:+8,M:+6,P:+4}},
+    ]
   },
   {
-    title:"학문/문화 정책",
-    sub:"국가 정체성과 시스템을 만든다.",
-    a:{ text:"제도·교육·기록에 투자", note:"학예/제도", eff:{scholar:+2, reform:+1, prag:+1} },
-    b:{ text:"현장 행정·치안·실무 역량 강화", note:"실무/현장", eff:{scholar:-1, hard:+1, prag:+1} }
+    title:"학문/문화 정책 방향",
+    sub:"국가 장기 경쟁력의 축.",
+    opt:[
+      {k:"A", text:"교육·기록·표준화에 투자한다", note:"학예/제도", eff:{S:+14,T:+6,R:+6}},
+      {k:"B", text:"현장 행정·치안·생산성에 집중", note:"실무", eff:{S:-6,P:+10,E:+6}},
+      {k:"C", text:"국가 의례/정통성(명분)을 강화", note:"명분", eff:{P:-8,C:+6,S:+6}},
+      {k:"D", text:"군사 기술/요새/병제에 투자", note:"안보", eff:{M:+12,S:+6}},
+    ]
   },
   {
-    title:"흉년 뒤 민란 조짐",
-    sub:"강경 진압 vs 원인 해결",
-    a:{ text:"원인을 파악하고 제도/구휼로 진정", note:"문제 해결형", eff:{care:+2, reform:+2, hard:-1} },
-    b:{ text:"질서를 위해 단호히 진압", note:"질서 회복형", eff:{hard:+2, central:+1, care:-1} }
+    title:"정치 세력(붕당/파벌)이 격화",
+    sub:"조정 운영 방식.",
+    opt:[
+      {k:"A", text:"공개 토론으로 규칙을 세우고 균형 운영", note:"투명·협치", eff:{T:+10,C:-8,R:+4}},
+      {k:"B", text:"한 축을 확실히 세워 효율을 높인다", note:"집권", eff:{C:+12,P:+6,L:+4}},
+      {k:"C", text:"인사로 판을 자주 바꿔 균형을 ‘전술적으로’ 유지", note:"정치 전술", eff:{P:+10,C:+6}},
+      {k:"D", text:"제도(규정)로 갈등을 흡수하는 장치를 만든다", note:"제도", eff:{S:+10,R:+6,T:+6}},
+    ]
   },
   {
-    title:"신하가 간언을 올렸다",
-    sub:"불편해도 듣는가, 선을 긋는가.",
-    a:{ text:"불편한 말도 기록하고 토론한다", note:"학문/협치", eff:{scholar:+1, central:-1, prag:+1} },
-    b:{ text:"국정 혼선을 막기 위해 선을 긋는다", note:"집권/결단", eff:{central:+2, hard:+1} }
+    title:"반란/내부 쿠데타 조짐",
+    sub:"초기 대응.",
+    opt:[
+      {k:"A", text:"정보 수집·증거 확보 후 법 절차로 처리", note:"절차", eff:{T:+10,L:+6,S:+4}},
+      {k:"B", text:"선제 강경 진압으로 싹을 자른다", note:"강경", eff:{L:+12,C:+10,M:+6,E:-6}},
+      {k:"C", text:"협상/사면 카드로 분열을 유도해 무혈 해결", note:"유연", eff:{E:+8,P:+10,L:-6}},
+      {k:"D", text:"충성 기반을 재정비하고 지휘체계를 개편", note:"집권 개편", eff:{C:+10,R:+8,M:+4}},
+    ]
   },
   {
-    title:"정치 세력 갈등(파벌)이 격화",
-    sub:"균형 유지 vs 한쪽 정리",
-    a:{ text:"균형을 잡고 견제 구조를 만든다", note:"분권/협치", eff:{central:-2, reform:+1, care:+1} },
-    b:{ text:"국정 효율을 위해 주도 세력을 확실히 세운다", note:"집권/효율", eff:{central:+2, prag:+1, hard:+1} }
+    title:"나라가 장기 침체에 빠졌다",
+    sub:"경제·행정 처방.",
+    opt:[
+      {k:"A", text:"규제·세제를 손봐 생산성 중심 개혁", note:"개혁", eff:{R:+14,P:+8}},
+      {k:"B", text:"민생 지원(감세·구휼)로 소비/체감 회복", note:"민생", eff:{E:+14,P:+4}},
+      {k:"C", text:"질서·기강을 강화해 행정 효율부터 올린다", note:"통제", eff:{L:+12,C:+6}},
+      {k:"D", text:"학문·기술·교육에 투자해 체질을 바꾼다", note:"제도/학예", eff:{S:+14,R:+8}},
+    ]
   },
   {
-    title:"나라의 장기 전략을 고를 때",
-    sub:"미래 투자 vs 당장 성과",
-    a:{ text:"장기 제도개혁과 인프라에 투자", note:"미래형", eff:{reform:+2, scholar:+1, prag:+1} },
-    b:{ text:"당장 효과가 큰 정책으로 빠르게 성과", note:"성과형", eff:{prag:+2, hard:+1, scholar:-1} }
-  }
+    title:"언론/소문이 민심을 흔든다",
+    sub:"정보 관리 방식.",
+    opt:[
+      {k:"A", text:"사실 공개 + 기록을 남겨 신뢰로 승부", note:"투명", eff:{T:+14,E:+4}},
+      {k:"B", text:"핵심만 공개하고 나머진 내부에서 조정", note:"관리", eff:{T:+4,P:+8}},
+      {k:"C", text:"엄벌로 유언비어를 단속", note:"통제", eff:{L:+12,T:-6,C:+6}},
+      {k:"D", text:"민심 수렴 창구를 늘려 ‘원인’을 해결", note:"민생", eff:{E:+12,R:+6,T:+4}},
+    ]
+  },
+  {
+    title:"재난 이후 세금 논쟁",
+    sub:"재정 선택.",
+    opt:[
+      {k:"A", text:"감세 + 재정지출 확대(단기 회복)", note:"민생", eff:{E:+10,P:+10}},
+      {k:"B", text:"증세/재정 긴축으로 국고 안정", note:"국가", eff:{E:-4,L:+6,P:+8}},
+      {k:"C", text:"세원·징세 제도를 개혁해 ‘누수’를 막는다", note:"개혁/제도", eff:{R:+12,S:+6,T:+6}},
+      {k:"D", text:"지역별 차등 적용(현실적 타협)", note:"실리", eff:{P:+12,C:-4}},
+    ]
+  },
+  {
+    title:"군제(병제) 개편 제안",
+    sub:"안보·재정 균형.",
+    opt:[
+      {k:"A", text:"전면 개편(기술/훈련/장비 투자)", note:"군사 혁신", eff:{M:+12,R:+10}},
+      {k:"B", text:"현 체제를 유지하되 지휘/기강만 강화", note:"엄정", eff:{M:+6,L:+12,C:+6}},
+      {k:"C", text:"최소 개편 + 외교/동맹으로 리스크 분산", note:"외교", eff:{M:-8,P:+10}},
+      {k:"D", text:"기록/물자/회계 투명화를 먼저 해서 새는 돈부터 막는다", note:"투명", eff:{T:+12,S:+6,P:+6}},
+    ]
+  },
+  {
+    title:"사법/형벌의 방향",
+    sub:"국가의 온도.",
+    opt:[
+      {k:"A", text:"엄벌로 질서를 세운다", note:"엄정", eff:{L:+14,C:+6,E:-6}},
+      {k:"B", text:"법 절차를 강화하고 예외를 줄인다", note:"법치/제도", eff:{S:+10,T:+8,L:+4}},
+      {k:"C", text:"사면/구제 제도를 늘려 사회를 누그러뜨린다", note:"온건", eff:{E:+12,L:-10}},
+      {k:"D", text:"범죄 원인(빈곤/부패)을 정책으로 해결", note:"민생개혁", eff:{E:+10,R:+10}},
+    ]
+  },
+  {
+    title:"궁중/왕실 지출 논란",
+    sub:"권위 vs 민심",
+    opt:[
+      {k:"A", text:"검소를 선언하고 지출 구조를 정리", note:"민심", eff:{E:+8,R:+8,P:+6}},
+      {k:"B", text:"권위를 위해 의례/상징은 유지", note:"권위", eff:{C:+8,S:+6,E:-4}},
+      {k:"C", text:"회계 공개·감사로 투명성 확보", note:"투명", eff:{T:+14,R:+4}},
+      {k:"D", text:"일부 유지, 대신 민생 패키지로 상쇄", note:"실리", eff:{P:+10,E:+6}},
+    ]
+  },
+  {
+    title:"새로운 사상/학파가 부상한다",
+    sub:"사상 관리",
+    opt:[
+      {k:"A", text:"토론과 교육으로 흡수(공론장 확대)", note:"학문", eff:{S:+12,T:+8,R:+6}},
+      {k:"B", text:"위험 요소는 선제 차단(금지/단속)", note:"통제", eff:{L:+12,C:+8,T:-6}},
+      {k:"C", text:"정치적으로 활용해 세력 균형에 쓴다", note:"전술", eff:{P:+12,C:+6}},
+      {k:"D", text:"민생에 도움 되는 부분만 실용적으로 채택", note:"실용", eff:{P:+12,E:+6,R:+4}},
+    ]
+  },
+  {
+    title:"대규모 토목/인프라 사업 제안",
+    sub:"리스크가 큰 프로젝트.",
+    opt:[
+      {k:"A", text:"장기 국익이면 추진(제도·기술 확보 포함)", note:"미래", eff:{R:+12,S:+6,P:+6}},
+      {k:"B", text:"재정 부담이 크면 보류, 당장 민생부터", note:"민생", eff:{E:+12,P:+4}},
+      {k:"C", text:"군사/요새/치안 목적이면 우선 추진", note:"안보", eff:{M:+10,C:+6}},
+      {k:"D", text:"투명한 감사·기록 체계가 갖춰지면 추진", note:"투명", eff:{T:+12,S:+6,R:+4}},
+    ]
+  },
+  {
+    title:"왕이 직접 현장에 나갈까?",
+    sub:"통치 스타일",
+    opt:[
+      {k:"A", text:"현장 행차로 체감 문제를 직접 듣는다", note:"민생", eff:{E:+12,S:-4}},
+      {k:"B", text:"조정(궁)에서 정보/보고로 통제한다", note:"집권", eff:{C:+10,P:+6}},
+      {k:"C", text:"기록/보고 체계를 표준화해 ‘데이터’로 본다", note:"기록", eff:{T:+12,S:+8}},
+      {k:"D", text:"군사/치안 현장을 점검해 긴장감을 유지", note:"안보", eff:{M:+10,L:+6}},
+    ]
+  },
+  {
+    title:"위기 후 책임 소재 논쟁",
+    sub:"누구를 책임질까?",
+    opt:[
+      {k:"A", text:"최고 책임은 왕이 진다(신뢰 확보)", note:"공감", eff:{E:+10,T:+6}},
+      {k:"B", text:"실무 책임자를 문책해 본보기로 삼는다", note:"통제", eff:{L:+10,C:+6}},
+      {k:"C", text:"제도/구조를 고쳐 재발을 막는다", note:"개혁", eff:{R:+12,S:+6}},
+      {k:"D", text:"정치적 손실 최소가 되도록 조정한다", note:"실리", eff:{P:+12}},
+    ]
+  },
+  {
+    title:"마지막: 당신이 원하는 ‘국가의 색’은?",
+    sub:"정체성 선택",
+    opt:[
+      {k:"A", text:"백성이 체감하는 삶의 질(민생)을 최우선", note:"민생", eff:{E:+14,R:+6}},
+      {k:"B", text:"강한 중앙 권위와 질서(통제)를 최우선", note:"강권", eff:{C:+12,L:+10}},
+      {k:"C", text:"학문·기록·제도(시스템)로 국가를 설계", note:"제도", eff:{S:+14,T:+10}},
+      {k:"D", text:"현실적 외교·재정·전략(실리)을 최우선", note:"실리", eff:{P:+14,M:+4}},
+    ]
+  },
 ];
 
-// 왕 프로필(27명). 값 범위: -3..+3 (대략)
-// 역사 “사실”을 단정하기보다 성향 이미지를 위한 창작적 프로필로 설계.
+/* ===============================
+   3) 왕(27명) 프로필 벡터(0~100)
+   - 너무 비슷하면 특정 왕만 뜰 수 있어서,
+     각 왕을 의도적으로 떨어뜨려 배치
+   - 보정용 "시그니처"(6문항 선호)도 추가
+   =============================== */
+const SIG_Q = [2,6,10,13,16,19]; // 0-index 질문 번호 (6개)
+function sigKey(ans){ return SIG_Q.map(i => (ans[i] ?? 0)).join(""); } // 0~3
+
 const KINGS = [
-  {name:"태조",   tag:"개국·창업형",      bio:"판을 새로 짜는 ‘창업 군주’ 타입.", v:{reform:+3, central:+1, prag:+2, scholar:-1, hard:+1, care:+1}},
-  {name:"정종",   tag:"조정·안정형",      bio:"갈등을 줄이며 균형을 찾는 타입.", v:{reform:-1, central:-1, prag:+1, scholar:+1, hard:-2, care:+1}},
-  {name:"태종",   tag:"권력정비·결단형",  bio:"국가 엔진을 강하게 조여 성과를 내는 타입.", v:{reform:+2, central:+3, prag:+2, scholar:0, hard:+3, care:-1}},
-  {name:"세종",   tag:"제도·문화 르네상스형", bio:"사람·지식·제도를 키워 국력을 올리는 타입.", v:{reform:+3, central:+1, prag:+2, scholar:+3, hard:0, care:+2}},
-  {name:"문종",   tag:"정밀 운영형",      bio:"디테일로 안정적으로 굴리는 ‘운영형 리더’.", v:{reform:+1, central:0, prag:+1, scholar:+2, hard:-1, care:+1}},
-  {name:"단종",   tag:"이상·순수형",      bio:"원칙과 명분을 중시하는 타입.", v:{reform:+1, central:-2, prag:-1, scholar:+1, hard:-2, care:+2}},
-  {name:"세조",   tag:"강경 개편형",      bio:"질서를 위해 큰 수를 두는 ‘전환형’.", v:{reform:+2, central:+3, prag:+1, scholar:0, hard:+3, care:-1}},
-  {name:"예종",   tag:"정리·재정비형",    bio:"짧게라도 핵심을 정리하고 싶어하는 타입.", v:{reform:+1, central:+1, prag:+1, scholar:+1, hard:+1, care:0}},
-  {name:"성종",   tag:"제도 완성형",      bio:"규범과 시스템을 깔끔히 완성하는 타입.", v:{reform:+2, central:+1, prag:+1, scholar:+2, hard:0, care:+1}},
-  {name:"연산군", tag:"감정 폭주형",      bio:"스트레스가 쌓이면 극단으로 치닫기 쉬운 타입(주의).", v:{reform:-2, central:+3, prag:-2, scholar:-2, hard:+3, care:-3}},
-  {name:"중종",   tag:"균형 복원형",      bio:"무너진 균형을 되돌리려는 ‘복원형’.", v:{reform:+1, central:-1, prag:+1, scholar:+1, hard:-1, care:+1}},
-  {name:"인종",   tag:"조정·배려형",      bio:"갈등을 낮추고 관계를 정리하는 타입.", v:{reform:+1, central:-1, prag:0, scholar:+1, hard:-2, care:+2}},
-  {name:"명종",   tag:"불안정 대응형",    bio:"난국에서 타협과 단속을 오가는 타입.", v:{reform:0, central:+1, prag:+1, scholar:+1, hard:+1, care:0}},
-  {name:"선조",   tag:"관계·인사형",      bio:"사람과 세력의 흐름에 민감한 타입.", v:{reform:-1, central:0, prag:-1, scholar:+1, hard:-1, care:+1}},
-  {name:"광해군", tag:"실리 외교형",      bio:"현실적 리스크 관리에 강한 타입.", v:{reform:+1, central:+1, prag:+3, scholar:+1, hard:+1, care:0}},
-  {name:"인조",   tag:"명분 고집형",      bio:"원칙을 우선하다가 실리가 흔들릴 수 있는 타입.", v:{reform:-2, central:+1, prag:-2, scholar:+1, hard:+1, care:-1}},
-  {name:"효종",   tag:"안보·준비형",      bio:"힘을 기르고 대비하는 ‘준비형 리더’.", v:{reform:+1, central:+2, prag:+1, scholar:0, hard:+3, care:0}},
-  {name:"현종",   tag:"갈등 완충형",      bio:"논쟁을 중재하고 안정으로 끌고 가는 타입.", v:{reform:0, central:-1, prag:+1, scholar:+1, hard:-1, care:+1}},
-  {name:"숙종",   tag:"정치 전술형",      bio:"판세를 읽고 타이밍을 잡는 타입.", v:{reform:+1, central:+2, prag:+2, scholar:+1, hard:+1, care:-1}},
-  {name:"경종",   tag:"신중·방어형",      bio:"리스크를 줄이며 조심스럽게 가는 타입.", v:{reform:-1, central:-1, prag:+1, scholar:+1, hard:-2, care:+1}},
-  {name:"영조",   tag:"균형·통합형",      bio:"분열을 묶고 제도를 다듬는 ‘통합형’.", v:{reform:+2, central:+1, prag:+2, scholar:+2, hard:+1, care:+1}},
-  {name:"정조",   tag:"개혁 드라이브형",  bio:"비전과 실행으로 시스템을 밀어붙이는 타입.", v:{reform:+3, central:+2, prag:+2, scholar:+2, hard:+1, care:+1}},
-  {name:"순조",   tag:"관성·안정형",      bio:"큰 변화보다 유지에 무게를 두는 타입.", v:{reform:-2, central:0, prag:+1, scholar:0, hard:0, care:0}},
-  {name:"헌종",   tag:"관망·정리형",      bio:"상황을 보며 정리하려는 타입.", v:{reform:-1, central:-1, prag:+1, scholar:+1, hard:-1, care:+1}},
-  {name:"철종",   tag:"현실 생존형",      bio:"주어진 조건에서 버티며 실리를 찾는 타입.", v:{reform:0, central:-1, prag:+2, scholar:0, hard:0, care:0}},
-  {name:"고종",   tag:"격동 관리형",      bio:"거대한 변화 속에서 선택을 강요받는 타입.", v:{reform:+1, central:+1, prag:+1, scholar:+1, hard:0, care:0}},
-  {name:"순종",   tag:"책임·배려형",      bio:"관계와 책임을 크게 느끼는 타입.", v:{reform:-1, central:-2, prag:0, scholar:+1, hard:-2, care:+2}},
+  // name, tag, bio, v(8축), sig(6개 답안 선호: 0~3)
+  {name:"태조", tag:"개국·창업형", bio:"판을 새로 짜는 창업자 타입. 큰 방향 전환과 실행에 강함.", v:{R:82,C:58,P:72,S:40,M:62,L:52,T:50,E:60}, sig:[1,1,3,0,2,3]},
+  {name:"정종", tag:"조정·안정형", bio:"갈등을 줄이고 균형을 찾는 안정형 리더.", v:{R:44,C:40,P:58,S:62,M:40,L:38,T:62,E:66}, sig:[0,0,1,1,0,0]},
+  {name:"태종", tag:"권력정비·결단형", bio:"권한을 모아 속도와 효율을 중시. 강한 드라이브.", v:{R:70,C:88,P:74,S:48,M:64,L:82,T:46,E:34}, sig:[3,1,1,0,1,1]},
+  {name:"세종", tag:"제도·문화 르네상스형", bio:"학문/제도/기록에 투자해 장기 국력을 키우는 타입.", v:{R:84,C:58,P:72,S:92,M:48,L:46,T:90,E:76}, sig:[2,0,2,3,0,2]},
+  {name:"문종", tag:"정밀 운영형", bio:"디테일을 챙기고 안정적으로 굴리는 운영형.", v:{R:62,C:52,P:62,S:82,M:44,L:48,T:80,E:62}, sig:[2,0,0,2,3,2]},
+  {name:"단종", tag:"이상·순수형", bio:"명분과 공감이 강한 편. 강권보다 협치 성향.", v:{R:58,C:28,P:38,S:66,M:40,L:30,T:62,E:84}, sig:[0,2,2,2,0,0]},
+  {name:"세조", tag:"강경 전환형", bio:"질서를 위해 큰 수를 두는 전환형. 강권·엄정.", v:{R:72,C:90,P:66,S:50,M:76,L:88,T:42,E:30}, sig:[3,1,3,1,1,1]},
+  {name:"예종", tag:"정리·재정비형", bio:"핵심을 정리해 시스템을 재정비하는 타입.", v:{R:60,C:60,P:60,S:70,M:52,L:60,T:66,E:52}, sig:[2,3,0,3,3,2]},
+  {name:"성종", tag:"제도 완성형", bio:"규범과 제도를 정교화하는 시스템 빌더.", v:{R:70,C:60,P:56,S:86,M:46,L:54,T:84,E:60}, sig:[2,0,0,3,2,2]},
+  {name:"연산군", tag:"감정 폭주·통제형(주의)", bio:"통제·강권이 극단으로 치달을 때의 그림자 타입(테스트 캐릭터화).", v:{R:26,C:92,P:30,S:30,M:62,L:92,T:18,E:10}, sig:[2,2,1,1,1,1]},
+  {name:"중종", tag:"균형 복원형", bio:"무너진 균형을 복원하려는 조정형.", v:{R:62,C:44,P:58,S:72,M:44,L:44,T:70,E:66}, sig:[0,0,0,2,0,2]},
+  {name:"인종", tag:"배려·조정형", bio:"갈등을 낮추고 민생/관계 정리에 강함.", v:{R:58,C:36,P:48,S:66,M:40,L:34,T:66,E:82}, sig:[0,0,0,2,0,0]},
+  {name:"명종", tag:"난국 수습형", bio:"불안정에서 단속과 타협을 오가는 타입.", v:{R:52,C:58,P:60,S:64,M:50,L:66,T:60,E:54}, sig:[3,2,2,0,1,0]},
+  {name:"선조", tag:"관계·인사형", bio:"세력 균형/관계에 민감. 명분과 여론 영향이 큼.", v:{R:44,C:50,P:40,S:66,M:44,L:44,T:58,E:64}, sig:[0,0,3,0,2,0]},
+  {name:"광해군", tag:"실리 외교·리스크관리형", bio:"현실 리스크 관리와 실리 외교 성향이 강한 타입.", v:{R:64,C:60,P:90,S:70,M:52,L:56,T:58,E:50}, sig:[1,0,0,3,3,3]},
+  {name:"인조", tag:"명분 고집형", bio:"원칙/명분을 중시. 실리와 충돌하면 경직될 수 있음.", v:{R:34,C:62,P:26,S:66,M:56,L:58,T:48,E:42}, sig:[0,3,3,0,2,0]},
+  {name:"효종", tag:"안보·준비형", bio:"힘을 기르고 대비하는 준비형 리더.", v:{R:60,C:68,P:58,S:54,M:88,L:74,T:56,E:50}, sig:[3,1,1,3,1,1]},
+  {name:"현종", tag:"완충·중재형", bio:"논쟁을 완충하고 안정으로 끌고 가는 타입.", v:{R:52,C:42,P:58,S:66,M:44,L:44,T:64,E:66}, sig:[0,0,2,2,0,0]},
+  {name:"숙종", tag:"정치 전술·타이밍형", bio:"판세를 읽고 타이밍과 전술로 운영.", v:{R:60,C:72,P:82,S:66,M:56,L:62,T:54,E:44}, sig:[1,3,2,1,3,3]},
+  {name:"경종", tag:"신중·방어형", bio:"리스크를 줄이고 조심스럽게 운영.", v:{R:40,C:38,P:58,S:62,M:40,L:34,T:66,E:66}, sig:[0,0,1,2,0,0]},
+  {name:"영조", tag:"균형·통합형", bio:"분열을 묶고 제도와 민생을 함께 챙기는 통합형.", v:{R:70,C:60,P:74,S:80,M:52,L:60,T:82,E:70}, sig:[0,0,2,3,2,2]},
+  {name:"정조", tag:"개혁 드라이브·시스템형", bio:"비전과 실행을 결합해 제도개편을 밀어붙이는 타입.", v:{R:88,C:72,P:76,S:86,M:56,L:60,T:86,E:66}, sig:[2,0,0,3,3,2]},
+  {name:"순조", tag:"관성·유지형", bio:"큰 변화보다 유지와 관성에 가까운 타입.", v:{R:28,C:50,P:58,S:52,M:40,L:54,T:56,E:50}, sig:[0,2,0,0,2,0]},
+  {name:"헌종", tag:"관망·정리형", bio:"상황을 보며 정리하려는 타입.", v:{R:36,C:40,P:60,S:60,M:42,L:44,T:58,E:58}, sig:[0,0,0,2,2,0]},
+  {name:"철종", tag:"현실 생존형", bio:"주어진 조건에서 실리를 찾아 버티는 타입.", v:{R:46,C:36,P:76,S:50,M:42,L:46,T:54,E:52}, sig:[1,2,0,0,3,3]},
+  {name:"고종", tag:"격동 관리·다중전략형", bio:"외부 변수 큰 환경에서 선택을 강요받는 복합형.", v:{R:62,C:58,P:66,S:66,M:56,L:54,T:60,E:52}, sig:[1,3,2,3,1,3]},
+  {name:"순종", tag:"책임·배려형", bio:"관계와 책임감을 크게 느끼는 타입.", v:{R:30,C:26,P:48,S:58,M:36,L:30,T:62,E:78}, sig:[0,0,2,2,0,0]},
 ];
 
-/* =========================
-   1) 유틸
-   ========================= */
-const $ = (sel) => document.querySelector(sel);
+/* ===============================
+   4) 상태/유틸
+   =============================== */
+const $ = (s)=>document.querySelector(s);
 const screen = $("#screen");
 const statusPill = $("#statusPill");
 const toast = $("#toast");
 
-function clampScore(n){ return Math.max(-CLAMP, Math.min(CLAMP, n)); }
+function clamp(x){ return Math.max(CLAMP_MIN, Math.min(CLAMP_MAX, x)); }
 function showToast(msg){
   toast.textContent = msg;
   toast.style.display = "block";
   clearTimeout(showToast._t);
-  showToast._t = setTimeout(()=> toast.style.display="none", 1800);
+  showToast._t = setTimeout(()=> toast.style.display="none", 1700);
 }
 
-function encodeChoices(arr){
-  // 0/1 배열 -> 비트 문자열 -> base64url
-  const bits = arr.map(x=>x?1:0).join("");
-  let hex = "";
-  for(let i=0;i<bits.length;i+=4){
-    const chunk = bits.slice(i,i+4).padEnd(4,"0");
-    hex += parseInt(chunk,2).toString(16);
-  }
-  // hex -> bytes
+// 답안: 각 문항 0~3
+let idx = 0;
+let answers = Array(QUESTIONS.length).fill(null);
+
+/* ====== 링크 공유(2bit packing) ====== */
+function encodeAnswers(arr){
+  // 0~3 -> 2bit, 4개씩 1바이트(8bit)
+  const n = arr.length;
   const bytes = [];
-  for(let i=0;i<hex.length;i+=2) bytes.push(parseInt(hex.slice(i,i+2).padEnd(2,"0"),16));
+  for(let i=0;i<n;i+=4){
+    let b = 0;
+    for(let j=0;j<4;j++){
+      const v = (arr[i+j] ?? 0) & 3;
+      b |= (v << (j*2));
+    }
+    bytes.push(b);
+  }
   let bin = "";
-  bytes.forEach(b=> bin += String.fromCharCode(b));
+  bytes.forEach(x => bin += String.fromCharCode(x));
   return btoa(bin).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"");
 }
-function decodeChoices(str, n){
+function decodeAnswers(str, n){
   try{
     const b64 = str.replace(/-/g,"+").replace(/_/g,"/");
     const bin = atob(b64);
-    const bytes = [...bin].map(ch=> ch.charCodeAt(0));
-    let hex = bytes.map(b=> b.toString(16).padStart(2,"0")).join("");
-    let bits = "";
-    for(const h of hex){
-      bits += parseInt(h,16).toString(2).padStart(4,"0");
+    const bytes = [...bin].map(ch => ch.charCodeAt(0));
+    const out = [];
+    for(const b of bytes){
+      for(let j=0;j<4;j++){
+        out.push((b >> (j*2)) & 3);
+      }
     }
-    const arr = bits.slice(0,n).split("").map(c=> c==="1"?1:0);
-    if(arr.length!==n) return null;
-    return arr;
+    return out.slice(0,n);
   }catch(e){ return null; }
 }
 
-function dist(a,b){
-  let s=0;
-  for(const ax of AXES){
-    const k=ax.key;
-    const d=(a[k]||0)-(b[k]||0);
-    s += d*d;
-  }
-  return Math.sqrt(s);
-}
-function similarityScore(userV, kingV){
-  const d = dist(userV, kingV);
-  return 1/(1+d); // 0~1
-}
-function pct(n){ return Math.round(n*100); }
-
-/* =========================
-   2) 상태
-   ========================= */
-let step = 0;
-let choices = Array(QUESTIONS.length).fill(null); // 0(A) / 1(B)
-
+/* ===============================
+   5) 점수 계산/매칭
+   =============================== */
 function computeUserVector(){
-  const v = Object.fromEntries(AXES.map(a=>[a.key,0]));
+  const v = Object.fromEntries(AXES.map(a=>[a.key, BASE]));
   for(let i=0;i<QUESTIONS.length;i++){
-    const c = choices[i];
-    if(c===null) continue;
-    const eff = (c===0 ? QUESTIONS[i].a.eff : QUESTIONS[i].b.eff);
-    for(const k in eff) v[k] = clampScore((v[k]||0) + eff[k]);
+    const a = answers[i];
+    if(a===null) continue;
+    const eff = QUESTIONS[i].opt[a].eff || {};
+    for(const k in eff){
+      v[k] = clamp(v[k] + eff[k]);
+    }
   }
   return v;
 }
-
-function computeRanking(){
+function distWeighted(u, k){
+  // 축 가중치(분포를 잘 갈라주는 축에 약간 더)
+  const W = {R:1.15,C:1.15,P:1.10,S:1.10,M:1.05,L:1.10,T:1.10,E:1.15};
+  let s = 0;
+  for(const ax of AXES){
+    const key = ax.key;
+    const d = (u[key]-k[key]);
+    s += (d*d) * (W[key] || 1);
+  }
+  return Math.sqrt(s);
+}
+function signatureBonus(king, ans){
+  // 6문항 선호가 맞을수록 미세 보정(동점/근접일 때만 영향)
+  // 완전 강제는 아니고 "분리도"만 올리는 용도
+  let hit = 0;
+  for(let i=0;i<SIG_Q.length;i++){
+    const qi = SIG_Q[i];
+    if(ans[qi] === king.sig[i]) hit++;
+  }
+  return hit; // 0~6
+}
+function rankKings(){
   const u = computeUserVector();
-  const scored = KINGS.map(kg=>{
-    const s = similarityScore(u, kg.v);
-    return { ...kg, score:s };
-  }).sort((x,y)=> y.score - x.score);
+  const scored = KINGS.map(k=>{
+    const d = distWeighted(u, k.v);
+    const sig = signatureBonus(k, answers);
+    // 최종 점수: 거리(작을수록 좋음) + 시그니처 보정
+    // sig가 높으면 거리에서 약간 이득
+    const adj = d - (sig * 1.8);
+    return { ...k, d, sig, adj };
+  }).sort((a,b)=> a.adj - b.adj);
 
-  // 상위 3 퍼센트(상대값으로 보기 좋게 정규화)
-  const max = scored[0].score || 1;
-  const top3 = scored.slice(0,3).map(x=> ({...x, rel: x.score/max}));
-  return {u, scored, top3};
+  return {u, scored};
 }
 
-/* =========================
-   3) 화면 렌더
-   ========================= */
+function axisLabel(axKey, value){
+  // 0~100 -> 라벨
+  const ax = AXES.find(x=>x.key===axKey);
+  if(!ax) return "";
+  if(value >= 70) return ax.right;
+  if(value <= 30) return ax.left;
+  return "중간";
+}
+
+function topAxes(u){
+  // 중립(50)에서 멀리 벗어난 축 상위
+  const arr = AXES.map(ax=>{
+    const v = u[ax.key];
+    return {key:ax.key, name:ax.name, v, delta: Math.abs(v-50), label: axisLabel(ax.key,v)};
+  }).sort((a,b)=> b.delta - a.delta);
+  return arr;
+}
+
+function buildGenericStrengths(u){
+  const t = topAxes(u).slice(0,3);
+  const out = [];
+  for(const x of t){
+    if(x.key==="R" && x.v>55) out.push("판을 바꾸는 개혁 추진력");
+    if(x.key==="C" && x.v>55) out.push("의사결정 속도/컨트롤");
+    if(x.key==="P" && x.v>55) out.push("현실적 리스크 관리");
+    if(x.key==="S" && x.v>55) out.push("제도·기록 기반 설계");
+    if(x.key==="M" && x.v>55) out.push("안보·대응 역량");
+    if(x.key==="L" && x.v>55) out.push("기강·집행력");
+    if(x.key==="T" && x.v>55) out.push("투명/기록으로 신뢰 확보");
+    if(x.key==="E" && x.v>55) out.push("민심/체감 중심 운영");
+    if(x.key==="R" && x.v<45) out.push("급변보다 안정 유지");
+    if(x.key==="C" && x.v<45) out.push("협치/분권으로 갈등 완충");
+  }
+  // 중복 제거 + 최소 3개
+  const uniq = [...new Set(out)];
+  while(uniq.length < 3) uniq.push("상황에 맞춘 균형 운영");
+  return uniq.slice(0,4);
+}
+function buildGenericRisks(u){
+  const out = [];
+  if(u.C>=75 && u.T<=40) out.push("불신(‘밀실’ 인식) 리스크");
+  if(u.L>=75 && u.E<=40) out.push("반발/이탈(강압 피로) 리스크");
+  if(u.R>=75 && u.P<=40) out.push("이상 과잉으로 실행력 저하 가능");
+  if(u.P>=75 && u.E<=40) out.push("민심과 거리감(냉정함으로 비칠 수)");
+  if(u.S>=75 && u.M<=40) out.push("현장/안보 대응이 느려질 수 있음");
+  if(u.E>=75 && u.L<=35) out.push("원칙/집행력 약화로 흐트러질 수 있음");
+  if(out.length===0) out.push("균형형: 강점이 분산되어 ‘한 방’이 약하게 보일 수 있음");
+  return out.slice(0,4);
+}
+function buildOpsTips(u){
+  const tips = [];
+  if(u.T>=65) tips.push("기록(의사결정 로그) + 공개 범위를 미리 정의해 신뢰를 유지");
+  else tips.push("핵심 결정은 근거를 남겨 ‘왜’가 보이게 하기(불신 예방)");
+  if(u.C>=65) tips.push("강한 드라이브를 쓸 땐 ‘안전장치(견제/피드백)’를 함께");
+  else tips.push("협치형이면 ‘결정 시한’과 ‘책임자’를 명확히(느려지는 것 방지)");
+  if(u.E>=65) tips.push("민생 정책은 체감 지표(물가/치안/구휼)로 관리");
+  if(u.R>=65) tips.push("개혁은 ‘파일럿→확대’로 실패 비용을 줄이기");
+  if(u.M>=65) tips.push("안보 강화 시 재정/민생과의 균형 메시지 동시 제공");
+  return tips.slice(0,5);
+}
+
+/* ===============================
+   6) 화면 렌더
+   =============================== */
 function renderHome(){
-  statusPill.textContent = "대기 중";
+  statusPill.textContent = "대기";
   screen.innerHTML = `
     <div class="card hero">
-      <h1>당신의 통치 스타일은 어떤 왕과 닮았을까?</h1>
+      <h1>20개의 상황에서 선택하면, 당신과 닮은 조선 왕이 나옵니다</h1>
       <p>
-        12개의 상황에서 선택을 하면, 성향 점수(6축)를 계산해
-        <b>조선 왕 27명 중 가장 가까운 인물</b>을 매칭해줘.
+        8개 축(개혁·집권·실리·제도·안보·엄정·투명·민생) 점수를 계산해
+        <b>조선 왕 27명 중 가장 가까운 결과</b>를 매칭하고, 해설까지 제공합니다.
       </p>
-      <div class="sp"></div>
+
+      <div class="sep"></div>
       <div class="row">
-        <span class="badge">⏱ 약 1분</span>
+        <span class="badge">⏱ 약 2~3분</span>
         <span class="badge">🔗 결과 링크 공유</span>
-        <span class="badge">📌 해설 포함</span>
+        <span class="badge">📌 27명 전원 후보</span>
       </div>
+
       <div class="btns">
         <button class="primary" id="startBtn">게임 시작</button>
         <button class="ghost" id="loadBtn">링크로 결과 불러오기</button>
       </div>
-      <p class="hint" style="margin-top:10px">
-        * “링크로 결과 불러오기”는 URL에 저장된 선택값을 읽어 복원해.
+
+      <p class="hint">
+        팁: “무난한 답”만 고르면 세종/정조 같은 균형형으로 몰릴 수 있어요.
+        직감대로 고를수록 분포가 다양해집니다.
       </p>
     </div>
   `;
   $("#startBtn").onclick = ()=>{
-    step = 0;
-    choices = Array(QUESTIONS.length).fill(null);
+    idx = 0;
+    answers = Array(QUESTIONS.length).fill(null);
     renderQuestion();
   };
   $("#loadBtn").onclick = ()=>{
     const h = location.hash.replace(/^#/,"").trim();
-    if(!h){ showToast("불러올 링크 정보가 없어요."); return; }
-    const decoded = decodeChoices(h, QUESTIONS.length);
-    if(!decoded){ showToast("링크 정보가 깨졌어요."); return; }
-    choices = decoded;
-    step = QUESTIONS.length;
+    if(!h){ showToast("불러올 결과 링크가 없어요."); return; }
+    const arr = decodeAnswers(h, QUESTIONS.length);
+    if(!arr || arr.length!==QUESTIONS.length){ showToast("링크가 깨졌어요."); return; }
+    answers = arr;
+    idx = QUESTIONS.length;
     renderResult();
   };
 }
 
 function renderQuestion(){
-  statusPill.textContent = `진행 ${step+1}/${QUESTIONS.length}`;
-  const q = QUESTIONS[step];
-  const prog = Math.round((step/QUESTIONS.length)*100);
+  const q = QUESTIONS[idx];
+  statusPill.textContent = `진행 ${idx+1}/${QUESTIONS.length}`;
+  const prog = Math.round((idx/QUESTIONS.length)*100);
+
+  const optHtml = q.opt.map((o,i)=>`
+    <button class="choice" data-i="${i}">
+      <div class="k">
+        <div class="key">${o.k}</div>
+        <div>
+          <div class="main">${o.text}</div>
+          <div class="note">${o.note}</div>
+        </div>
+      </div>
+    </button>
+  `).join("");
 
   screen.innerHTML = `
     <div class="card">
       <div class="progress" aria-label="progress"><div class="bar" style="width:${prog}%"></div></div>
       <div style="height:12px"></div>
+
       <div class="qhead">
         <div>
-          <div class="qno">Q${step+1}</div>
+          <div class="qno">Q${idx+1}</div>
           <p class="qtxt">${q.title}</p>
           <p class="qsub">${q.sub}</p>
         </div>
-        <div class="pill">선택 2개</div>
+        <div class="pill">4지선다</div>
       </div>
 
-      <div class="choices">
-        <button class="choice" id="aBtn">
-          A. ${q.a.text}
-          <small>${q.a.note}</small>
-        </button>
-        <button class="choice" id="bBtn">
-          B. ${q.b.text}
-          <small>${q.b.note}</small>
-        </button>
-      </div>
+      <div class="choices">${optHtml}</div>
 
       <div class="btns" style="margin-top:14px">
-        <button class="ghost" id="backBtn" ${step===0?"disabled":""}>이전</button>
+        <button class="ghost" id="backBtn" ${idx===0?"disabled":""}>이전</button>
         <button class="ghost" id="homeBtn">처음으로</button>
       </div>
-      <p class="hint">팁: 직감대로 고르는 게 결과가 다양해져.</p>
+      <p class="hint">한 문제를 고르면 다음으로 자동 진행됩니다.</p>
     </div>
   `;
 
-  $("#aBtn").onclick = ()=> { choices[step]=0; step++; step>=QUESTIONS.length ? renderResult() : renderQuestion(); };
-  $("#bBtn").onclick = ()=> { choices[step]=1; step++; step>=QUESTIONS.length ? renderResult() : renderQuestion(); };
-  $("#backBtn").onclick = ()=> { if(step>0){ step--; renderQuestion(); } };
-  $("#homeBtn").onclick = ()=> { renderHome(); };
+  document.querySelectorAll(".choice").forEach(btn=>{
+    btn.onclick = ()=>{
+      const i = Number(btn.dataset.i);
+      answers[idx] = i;
+      idx++;
+      if(idx >= QUESTIONS.length) renderResult();
+      else renderQuestion();
+    };
+  });
+
+  $("#backBtn").onclick = ()=>{
+    if(idx>0){ idx--; renderQuestion(); }
+  };
+  $("#homeBtn").onclick = ()=> renderHome();
 }
 
 function renderResult(){
   statusPill.textContent = "결과";
-  const {u, top3} = computeRanking();
-  const best = top3[0];
+  const {u, scored} = rankKings();
+  const top = scored[0];
+  const top5 = scored.slice(0,5);
 
-  // 점수 표시용 0~100
-  const axisToPct = (val)=> Math.round(((val + CLAMP) / (2*CLAMP)) * 100);
+  const axesSorted = topAxes(u);
+  const why = axesSorted.slice(0,4).map(x => `- <b>${x.name}</b>: ${x.label} (${Math.round(x.v)})`).join("<br/>");
+
+  const strengths = buildGenericStrengths(u).map(x=>`<li>${x}</li>`).join("");
+  const risks = buildGenericRisks(u).map(x=>`<li>${x}</li>`).join("");
+  const tips = buildOpsTips(u).map(x=>`<li>${x}</li>`).join("");
 
   const scoreHtml = AXES.map(ax=>{
-    const v = u[ax.key]||0;
-    const p = axisToPct(v);
-    const left = ax.left, right = ax.right;
+    const v = u[ax.key];
+    const pct = Math.round(v);
     return `
       <div class="scoreRow">
-        <div class="lab"><span>${ax.name}</span><span>${v>0?right:(v<0?left:"중간")}</span></div>
-        <div class="meter"><div style="width:${p}%"></div></div>
+        <div class="lab"><span>${ax.name}</span><span>${axisLabel(ax.key,v)} · ${pct}</span></div>
+        <div class="meter"><div style="width:${pct}%"></div></div>
       </div>
     `;
   }).join("");
 
-  const top3Html = top3.map((k,i)=>`
+  const rankHtml = top5.map((k,i)=>`
     <div class="item">
-      <div>
-        <span class="b">${i+1}. ${k.name}</span>
-        <span class="muted" style="font-size:12px"> · ${k.tag}</span>
-      </div>
-      <div class="badge">${pct(k.rel)}%</div>
+      <div><b>${i+1}. ${k.name}</b> <span class="muted">· ${k.tag}</span></div>
+      <div class="pill">유사도 ${Math.max(0, 100 - Math.round(k.d)).toString()} · 보정 ${k.sig}/6</div>
     </div>
   `).join("");
 
+  // 공유 링크 만들기
+  const hash = encodeAnswers(answers.map(x => x ?? 0));
+  const shareUrl = `${location.origin}${location.pathname}#${hash}`;
+  if(location.hash.replace(/^#/,"") !== hash){
+    history.replaceState(null, "", `#${hash}`);
+  }
+
   screen.innerHTML = `
-    <div class="card resultTop">
-      <div class="row">
-        <span class="badge">🏆 최종 매칭</span>
-        <span class="badge">🔎 상위 3명 제공</span>
-      </div>
-      <h2 class="kingName">${best.name}</h2>
-      <p class="tagline"><b>${best.tag}</b> — ${best.bio}</p>
+    <div class="twoCol">
+      <div class="card resultTop">
+        <div class="row">
+          <span class="badge">🏆 최종 매칭 <b>${top.name}</b></span>
+          <span class="badge">🧩 ${top.tag}</span>
+        </div>
 
-      <div class="sp"></div>
+        <h2 class="kingName">${top.name}</h2>
+        <p class="tagline">${top.bio}</p>
 
-      <div class="grid" style="gap:12px">
-        <div class="card" style="padding:14px">
-          <div class="row" style="justify-content:space-between">
-            <div class="b">당신의 성향 점수</div>
-            <div class="pill">6축 분석</div>
+        <div class="sep"></div>
+
+        <div class="card" style="background:var(--card2);box-shadow:none">
+          <div style="font-weight:1000">왜 이 결과가 나왔나</div>
+          <div class="hint" style="margin-top:8px">${why}</div>
+        </div>
+
+        <div class="card" style="background:var(--card2);box-shadow:none">
+          <div style="font-weight:1000">강점</div>
+          <ul class="list">${strengths}</ul>
+        </div>
+
+        <div class="card" style="background:var(--card2);box-shadow:none">
+          <div style="font-weight:1000">주의 포인트</div>
+          <ul class="list">${risks}</ul>
+        </div>
+
+        <div class="card" style="background:var(--card2);box-shadow:none">
+          <div style="font-weight:1000">운영 팁</div>
+          <ul class="list">${tips}</ul>
+        </div>
+
+        <div class="btns">
+          <button class="primary" id="copyBtn">결과 링크 복사</button>
+          <button id="retryBtn">다시하기</button>
+          <button class="ghost" id="homeBtn2">처음으로</button>
+        </div>
+
+        <div class="linkBox" id="shareBox">${shareUrl}</div>
+
+        <details style="margin-top:10px">
+          <summary>디버그(축 점수 원문 보기)</summary>
+          <div class="hint" style="margin-top:8px">
+            ${AXES.map(ax=>`- ${ax.key}(${ax.name}): ${Math.round(u[ax.key])}`).join("<br/>")}
           </div>
-          <div class="scores" style="margin-top:10px">${scoreHtml}</div>
-        </div>
-
-        <div class="card" style="padding:14px">
-          <div class="row" style="justify-content:space-between">
-            <div class="b">상위 3명</div>
-            <div class="pill">가까운 후보</div>
-          </div>
-          <div class="top3" style="margin-top:10px">${top3Html}</div>
-          <p class="hint" style="margin-top:8px">
-            %는 “1위와의 상대적 유사도”야. 2~3위가 비슷하면 성향이 복합형이라는 뜻.
-          </p>
-        </div>
-
-        <div class="card" style="padding:14px">
-          <div class="b">해설(읽는 법)</div>
-          <p class="hint" style="margin:8px 0 0">
-            - <span class="b">개혁/변화</span>: 규칙을 바꾸며 판을 새로 짜는가?<br/>
-            - <span class="b">집권/권위</span>: 중앙으로 모아 빠르게 추진하는가?<br/>
-            - <span class="b">실리/현실</span>: 손해를 줄이고 결과를 챙기는가?<br/>
-            - <span class="b">학문/문화</span>: 기록·교육·제도를 중시하는가?<br/>
-            - <span class="b">강경/결단</span>: 단호한 조치로 질서를 세우는가?<br/>
-            - <span class="b">민생/공감</span>: 백성 체감과 현장 문제를 먼저 보는가?
-          </p>
-        </div>
+        </details>
       </div>
 
-      <div class="btns" style="margin-top:14px">
-        <button class="primary" id="copyBtn">결과 링크 복사</button>
-        <button id="retryBtn">다시하기</button>
-        <button class="ghost" id="homeBtn2">처음으로</button>
-      </div>
-      <p class="hint">블로그에는 아래 “결과 링크”를 걸면 바로 테스트가 열려.</p>
-      <div class="card" style="padding:12px;margin-top:10px">
-        <div class="muted" style="font-size:12px">공유 링크</div>
-        <div class="b" id="shareUrl" style="word-break:break-all;margin-top:6px"></div>
+      <div class="card sticky">
+        <div style="font-weight:1000">당신의 성향 점수(8축)</div>
+        <div style="height:10px"></div>
+        <div class="scoreGrid">${scoreHtml}</div>
+
+        <div class="sep"></div>
+
+        <div style="font-weight:1000">상위 5명 후보</div>
+        <div class="rank">${rankHtml}</div>
+
+        <p class="hint" style="margin-top:10px">
+          * “유사도”는 내부 거리 기반 지표(낮을수록 가까움)를 보기 좋게 변환한 값입니다.<br/>
+          * 보정(0~6)은 일부 문항에서의 선호 패턴이 맞는 정도로, 결과가 한쪽으로 쏠리는 것을 줄이기 위한 장치입니다.
+        </p>
       </div>
     </div>
   `;
 
-  const hash = encodeChoices(choices.map(x=>x?1:0));
-  const url = `${location.origin}${location.pathname}#${hash}`;
-  $("#shareUrl").textContent = url;
-
   $("#copyBtn").onclick = async ()=>{
     try{
-      await navigator.clipboard.writeText(url);
+      await navigator.clipboard.writeText(shareUrl);
       showToast("복사됨!");
     }catch(e){
-      // 클립보드 막힌 환경 대비
-      prompt("아래 링크를 길게 눌러 복사해줘.", url);
+      prompt("아래 링크를 길게 눌러 복사해줘.", shareUrl);
     }
   };
   $("#retryBtn").onclick = ()=>{
-    step = 0;
-    choices = Array(QUESTIONS.length).fill(null);
+    idx = 0;
+    answers = Array(QUESTIONS.length).fill(null);
     renderQuestion();
   };
   $("#homeBtn2").onclick = ()=> renderHome();
-
-  // 주소창 해시에도 반영(새로고침해도 결과 복원)
-  if(location.hash.replace(/^#/,"") !== hash){
-    history.replaceState(null, "", `#${hash}`);
-  }
 }
 
-/* =========================
-   4) 시작 시 링크 복원
-   ========================= */
+/* ===============================
+   7) 시작 시 해시 복원
+   =============================== */
 (function init(){
   const h = location.hash.replace(/^#/,"").trim();
-  const decoded = h ? decodeChoices(h, QUESTIONS.length) : null;
-  if(decoded){
-    choices = decoded;
-    step = QUESTIONS.length;
-    renderResult();
-  }else{
-    renderHome();
+  if(h){
+    const arr = decodeAnswers(h, QUESTIONS.length);
+    if(arr && arr.length===QUESTIONS.length){
+      answers = arr;
+      idx = QUESTIONS.length;
+      renderResult();
+      return;
+    }
   }
+  renderHome();
 })();
 </script>
 </body>
